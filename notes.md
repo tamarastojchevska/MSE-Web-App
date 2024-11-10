@@ -6,6 +6,7 @@ Runtime in minutes: 6.78683694601059
 ```
 
 ### Output of second run
+(after the data has been collected)
 ```
 Number of codes: 164
 Runtime in seconds: 22.17287826538086
