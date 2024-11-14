@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import date, timedelta, datetime
 import os
 import time
+from multiprocessing.pool import ThreadPool
 
 # start timer for runtime execution
 start = time.time()
@@ -81,7 +82,7 @@ def get_parsed_data(code, from_date, to_date):
             cells.append(cell.text)
         # input the data in the correct format for the current row
         data = {
-            "Date": datetime.strptime(cells[0], '%m/%d/%Y').date(),
+            "Date": datetime.strptime(cells[0], '%m/%d/%Y').date().strftime("%d.%m.%Y"),
             "Last trade price": price_format(cells[1]),
             "Max": price_format(cells[2]),
             "Min": price_format(cells[3]),
@@ -137,22 +138,9 @@ def check_directory_empty(directory, codes):
                     pass
 
 
-#--------------------------------MAIN-------------------------------------
-codes = get_codes()
-print("Number of codes:", len(codes))
-
-dir_name = 'database'
-# check if directory exists
-if os.path.isdir(dir_name):
-    # given directory exists -> check if it's empty
-    check_directory_empty(dir_name, codes)
-else:
-    # given directory doesn't exist -> create directory and check if it's empty
-    os.mkdir(dir_name)
-    check_directory_empty(dir_name, codes)
-
-# get data for every code
-for code in codes:
+#---------------------------------DATA------------------------------
+def get_data_for_code(code):
+    dir_name = 'database'
     filename = code + '.csv'
     # check if the file for the given code is empty
     if os.stat(os.path.join(dir_name, filename)).st_size==0: # True if empty
@@ -181,46 +169,61 @@ for code in codes:
     else: # if csv is not empty -> get last recorded date and append the data from the last recorded date until today
         df = pd.read_csv(os.path.join(dir_name, filename))
         # last recorded date from csv file
-        from_date_file = datetime.strptime(df.iloc[0].tolist()[0], '%Y-%m-%d').date() 
+        from_date_file = datetime.strptime(df.iloc[0].tolist()[0], '%d.%m.%Y').date()
 
         # no new data to fetch
-        if from_date_file == TODAY:
-            break
+        if from_date_file != TODAY:
+            # start from the next day in order not to have duplicates
+            from_date_file = from_date_file + timedelta(days=1)
+            days_between = from_date_file - TODAY
+            to_date = TODAY
+            days = abs(days_between.days)
+            while True:
+                # fetch data on a "yearly" bases (difference between the dates is more than 364 days)
+                if days > 364:
+                    from_date = get_last_year(to_date)
+                    data = get_parsed_data(code, from_date, to_date)
 
-        # start from the next day in order not to have duplicates
-        from_date_file = from_date_file + timedelta(days=1)
-        days_between = from_date_file - TODAY
-        to_date = TODAY
-        days = abs(days_between.days)
-        while True:
-            # fetch data on a "yearly" bases (difference between the dates is more than 364 days)
-            if days > 364:
-                from_date = get_last_year(to_date)
-                data = get_parsed_data(code, from_date, to_date)
+                    # append data to csv
+                    filename = code + '.csv'
+                    df = pd.DataFrame(data)
+                    # df = df.sort_values(by='Date', ascending=True)
+                    df.to_csv(os.path.join(dir_name, filename), mode='a', header=False, index=False)
 
-                # append data to csv
-                filename = code + '.csv'
-                df = pd.DataFrame(data)
-                # df = df.sort_values(by='Date', ascending=True)
-                df.to_csv(os.path.join(dir_name, filename), mode='a', header=False, index=False)
+                    to_date = from_date - timedelta(days=1)
+                    days -= 364
+                else: # if the difference is less than a "year" (364 days) no need to itterate, just fetch the data for the given dates
+                    data = get_parsed_data(code, from_date_file, to_date)
 
-                to_date = from_date - timedelta(days=1)
-                days -= 364
-            else: # if the difference is less than a "year" (364 days) no need to itterate, just fetch the data for the given dates
-                data = get_parsed_data(code, from_date_file, to_date)
+                    # append data to csv
+                    filename = code + '.csv'
+                    # missing data (the one fetched earlier)
+                    df1 = pd.DataFrame(data)
+                    # current data in file
+                    df2 = pd.read_csv(os.path.join(dir_name, filename))
+                    # join missing and current data in right order
+                    frames = [df1, df2]
+                    final_df = pd.concat(frames, ignore_index=True)
+                    # replace with new data
+                    final_df.to_csv(os.path.join(dir_name, filename), index=False)
 
-                # append data to csv
-                filename = code + '.csv'
-                # missing data (the one fetched earlier)
-                df1 = pd.DataFrame(data)
-                # current data in file
-                df2 = pd.read_csv(os.path.join(dir_name, filename)) 
-                # join missing and current data in right order
-                frames = [df1, df2]
-                final_df = pd.concat(frames, ignore_index=True)
-                # replace with new data
-                final_df.to_csv(os.path.join(dir_name, filename), index=False) 
-                break
+#--------------------------------MAIN-------------------------------------
+codes = get_codes()
+print("Number of codes:", len(codes))
+
+dir_name = 'database'
+# check if directory exists
+if os.path.isdir(dir_name):
+    # given directory exists -> check if it's empty
+    check_directory_empty(dir_name, codes)
+else:
+    # given directory doesn't exist -> create directory and check if it's empty
+    os.mkdir(dir_name)
+    check_directory_empty(dir_name, codes)
+
+# get data for every code with multithreading
+with ThreadPool() as pool:
+    pool.map(get_data_for_code, codes)
 
 # end runtime execution timer
 end = time.time()
