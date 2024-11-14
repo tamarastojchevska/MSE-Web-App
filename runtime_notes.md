@@ -1,4 +1,5 @@
 ### Output of first run (without optimization)
+(empty database)
 ```
 Runtime in seconds: 407.2102167606354
 Runtime in minutes: 6.78683694601059
@@ -11,6 +12,8 @@ Runtime in seconds: 22.17287826538086
 Runtime in minutes: 0.369547971089681
 ```
 ### Output of first run (after optimization)
+(empty database)
+
 ![image](https://github.com/user-attachments/assets/9cd9ca64-8a41-44d7-b993-0eefdff4ae72)
 
 ### Output of second run (after optimization)
