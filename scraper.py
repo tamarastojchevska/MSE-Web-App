@@ -138,13 +138,13 @@ def check_directory_empty(directory, codes, ext):
                     pass
 
 def check_directory_exist(directory, codes, ext):
-    if os.path.isdir(dir_name):
+    if os.path.isdir(directory):
         # given directory exists -> check if it's empty
-        check_directory_empty(dir_name, codes, ext)
+        check_directory_empty(directory, codes, ext)
     else:
         # given directory doesn't exist -> create directory and check if it's empty
-        os.mkdir(dir_name)
-        check_directory_empty(dir_name, codes, ext)
+        os.mkdir(directory)
+        check_directory_empty(directory, codes, ext)
 
 #---------------------------------DATA------------------------------
 def get_data_for_code(code):
