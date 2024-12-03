@@ -139,7 +139,6 @@ def check_directory_empty(directory, codes):
 
 
 #---------------------------------DATA------------------------------
-
 def get_data_for_code(code):
     dir_name = 'database'
     filename = code + '.csv'
@@ -209,9 +208,8 @@ def get_data_for_code(code):
                     final_df.to_csv(os.path.join(dir_name, filename), index=False)
 
 #--------------------------------MAIN-------------------------------------
-
 codes = get_codes()
-# print("Number of codes:", len(codes))
+print("Number of codes:", len(codes))
 
 dir_name = 'database'
 # check if directory exists
