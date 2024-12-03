@@ -219,22 +219,23 @@ def get_data_for_code(code):
                     break
 
 #--------------------------------MAIN-------------------------------------
-codes = get_codes()
-print("Number of codes:", len(codes))
-ext = '.csv'
+if __name__ == '__main__':
+    codes = get_codes()
+    print("Number of codes:", len(codes))
+    ext = '.csv'
 
-dir_name = 'database'
-# check if directory exists
-check_directory_exist(dir_name, codes, ext)
+    dir_name = 'database'
+    # check if directory exists
+    check_directory_exist(dir_name, codes, ext)
 
-# get data for every code with multithreading
-with ThreadPool() as pool:
-    pool.map(get_data_for_code, codes)
+    # get data for every code with multithreading
+    with ThreadPool() as pool:
+        pool.map(get_data_for_code, codes)
 
-# end runtime execution timer
-end = time.time()
-length = end - start
+    # end runtime execution timer
+    end = time.time()
+    length = end - start
 
-print("Runtime in seconds:", length)
-print("Runtime in minutes:", length/60)
+    print("Runtime in seconds:", length)
+    print("Runtime in minutes:", length / 60)
 
