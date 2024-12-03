@@ -118,25 +118,33 @@ def get_post_request(code, from_date, to_date):
 #-----------------------DIRECTORY--------------------------
 
 # check if the database is empty or not
-def check_directory_empty(directory, codes):
+def check_directory_empty(directory, codes, ext):
     if not os.listdir(directory):
        # directory is empty -> create csv for every code
        for code in codes:
-           filename = code + '.csv'
+           filename = code + ext
            path = os.path.join(directory, filename)
-           with open(path, "w") as csvFile:
+           with open(path, "w") as File:
                pass
     else:
         # directory is not empty -> check if code is missing and create csv
-        files = glob.glob(directory + "/*.csv")
+        files = glob.glob(directory + "/*"+ext)
         for code in codes:
-            filename = code + '.csv'
+            filename = code + ext
             path = os.path.join(directory, filename)
             if path not in files:
-                path = os.path.join(directory, code+'.csv')
-                with open(path, "w") as csvFile:
+                path = os.path.join(directory, code+ext)
+                with open(path, "w") as File:
                     pass
 
+def check_directory_exist(directory, codes, ext):
+    if os.path.isdir(dir_name):
+        # given directory exists -> check if it's empty
+        check_directory_empty(dir_name, codes, ext)
+    else:
+        # given directory doesn't exist -> create directory and check if it's empty
+        os.mkdir(dir_name)
+        check_directory_empty(dir_name, codes, ext)
 
 #---------------------------------DATA------------------------------
 def get_data_for_code(code):
@@ -178,6 +186,8 @@ def get_data_for_code(code):
             days_between = from_date_file - TODAY
             to_date = TODAY
             days = abs(days_between.days)
+            if days_between == 0:
+                return
             while True:
                 # fetch data on a "yearly" bases (difference between the dates is more than 364 days)
                 if days > 364:
@@ -206,20 +216,16 @@ def get_data_for_code(code):
                     final_df = pd.concat(frames, ignore_index=True)
                     # replace with new data
                     final_df.to_csv(os.path.join(dir_name, filename), index=False)
+                    break
 
 #--------------------------------MAIN-------------------------------------
 codes = get_codes()
 print("Number of codes:", len(codes))
+ext = '.csv'
 
 dir_name = 'database'
 # check if directory exists
-if os.path.isdir(dir_name):
-    # given directory exists -> check if it's empty
-    check_directory_empty(dir_name, codes)
-else:
-    # given directory doesn't exist -> create directory and check if it's empty
-    os.mkdir(dir_name)
-    check_directory_empty(dir_name, codes)
+check_directory_exist(dir_name, codes, ext)
 
 # get data for every code with multithreading
 with ThreadPool() as pool:
