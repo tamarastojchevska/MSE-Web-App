@@ -16,8 +16,15 @@
         <option value="{{ code }}">{{ code }}</option>
     {% endfor %}
   </select>
-  <button type="submit"></button>
+  <button type="submit">Submit</button>
+    <input type="text" name="filename">
+    <a href="{{url_for('download', filename=filename)}}">Download</a>
+
 </form>
+
+
+
+
 <table>
 {% for row in table %}
 <tr>
