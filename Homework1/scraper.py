@@ -1,4 +1,6 @@
 import glob
+from itertools import repeat
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -147,8 +149,7 @@ def check_directory_exist(directory, codes, ext):
         check_directory_empty(directory, codes, ext)
 
 #---------------------------------DATA------------------------------
-def get_data_for_code(code):
-    dir_name = 'database'
+def get_data_for_code(dir_name, code):
     filename = code + '.csv'
     # check if the file for the given code is empty
     if os.stat(os.path.join(dir_name, filename)).st_size==0: # True if empty
@@ -219,23 +220,26 @@ def get_data_for_code(code):
                     break
 
 #--------------------------------MAIN-------------------------------------
-if __name__ == '__main__':
+
+def main(dir_name):
     codes = get_codes()
     print("Number of codes:", len(codes))
     ext = '.csv'
 
-    dir_name = 'database'
     # check if directory exists
     check_directory_exist(dir_name, codes, ext)
 
     # get data for every code with multithreading
     with ThreadPool() as pool:
-        pool.map(get_data_for_code, codes)
+        pool.starmap(get_data_for_code, zip(repeat(dir_name), codes))
 
-    # end runtime execution timer
+
+if __name__ == '__main__':
+    main('database')
+
+# end runtime execution timer
     end = time.time()
     length = end - start
 
     print("Runtime in seconds:", length)
     print("Runtime in minutes:", length / 60)
-
