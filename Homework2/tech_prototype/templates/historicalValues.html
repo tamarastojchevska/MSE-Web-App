@@ -20,40 +20,43 @@
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
                 </a>
+
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a href="index.html" class="nav-link text-white">
+                        <a href="{{ url_for('index') }}" class="nav-link text-secondary">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-secondary">
+                        <a href="{{ url_for('get_table') }}" class="nav-link text-white">
                             Historical Values
                         </a>
                     </li>
                     <li>
-                        <a href="aboutus.html" class="nav-link text-white">
+                        <a href="{{ url_for('aboutus') }}" class="nav-link text-white">
                             About Us
                         </a>
                     </li>
                     <li>
                 </ul>
+
             </div>
         </div>
     </div>
 </header>
 
 <form method="get" action="{{ url_for('get_table') }}">
-    <label>from</label>
+    <label>From</label>
     <input type="date" name="fromdate">
-    <label>to</label>
+    <label>To</label>
     <input type="date" name="todate">
     <select name="codes">
         {% for code in codes %}
         <option value="{{ code }}">{{ code }}</option>
         {% endfor %}
     </select>
-    <button name="Search" type="submit"></button>
+    <button type="submit">Submit</button>
+    <a href="{{url_for('download', filename=filename)}}" name="filename">Download</a>
 </form>
 <table>
     {% for row in table %}
@@ -62,9 +65,15 @@
         <td>{{row[1]}}</td>
         <td>{{row[2]}}</td>
         <td>{{row[3]}}</td>
+        <td>{{row[4]}}</td>
+        <td>{{row[5]}}</td>
+        <td>{{row[6]}}</td>
+        <td>{{row[7]}}</td>
+        <td>{{row[8]}}</td>
     </tr>
     {% endfor %}
 </table>
+
 <footer>
     <div class="px-3 py-2 text-bg-dark border-top border-bottom">
         <div class="container">

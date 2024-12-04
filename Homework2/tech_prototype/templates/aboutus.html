@@ -23,22 +23,23 @@
 
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a href="index.html" class="nav-link text-white">
+                        <a href="{{ url_for('index') }}" class="nav-link text-secondary">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a href="historicalValues.html" class="nav-link text-white">
+                        <a href="{{ url_for('get_table') }}" class="nav-link text-white">
                             Historical Values
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-secondary">
+                        <a href="{{ url_for('aboutus') }}" class="nav-link text-white">
                             About Us
                         </a>
                     </li>
                     <li>
                 </ul>
+
             </div>
         </div>
     </div>
