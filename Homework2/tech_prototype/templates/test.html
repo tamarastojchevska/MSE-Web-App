@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<form method="get" action="{{ url_for('get_table') }}">
+  <label>from</label>
+  <input type="date" name="fromdate">
+  <label>to</label>
+  <input type="date" name="todate">
+  <select name="codes">
+   {% for code in codes %}
+        <option value="{{ code }}">{{ code }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit"></button>
+</form>
+<table>
+{% for row in table %}
+<tr>
+    <td>{{row[0]}}</td>
+    <td>{{row[1]}}</td>
+    <td>{{row[2]}}</td>
+    <td>{{row[3]}}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
