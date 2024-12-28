@@ -32,15 +32,18 @@ def get_data(from_date, to_date, table_name):
     data.sort_values('DateFormated', inplace=True, ascending=True)
     data.set_index('DateFormated', inplace=True)
 
-    data['Price'] = data['Price'].apply(lambda x: float(x.replace('.', '').replace(',', '.')))
+    data['Price'] = data['Price'].apply(lambda x: parse_string_to_float(x))
     data['Max'] = data['Max'].apply(lambda x: parse_string_to_float(x))
     data['Min'] = data['Min'].apply(lambda x: parse_string_to_float(x))
-    data['Volume'] = data['Volume'].apply(lambda x: x.replace(',', '')).astype('float')
+    if data.dtypes['Volume'] == 'int64' or data.dtypes['Volume'] == 'int32':
+        data['Volume'] = data['Volume'].astype('float64')
+    else:
+        data['Volume'] = data['Volume'].apply(lambda x: x.replace(',', '')).astype('float')
 
+    data = data[data.Price != 0.0]
     data = data[data.Max != 0.0]
     data = data[data.Min != 0.0]
-
-    data.dropna(inplace=True)
+    data = data[data.Volume != 0.0]
 
     data = data.filter(['Price', 'Max', 'Min', 'Volume'])
     return data
