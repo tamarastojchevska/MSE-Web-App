@@ -9,8 +9,7 @@ import plotly.graph_objects as go
 from Homework3.indicators_calculations import *
 
 
-def get_data(from_date, to_date):
-    code = 'ALK'
+def get_data(from_date, to_date, table_name):
     file = 'database.db'
 
     if from_date == '':
@@ -22,7 +21,7 @@ def get_data(from_date, to_date):
 
     connection = sqlite3.connect(file)
     cursor = connection.cursor()
-    cursor.execute("SELECT * from %s WHERE DateFormated > ? AND DATEfORMATED < ?" % code, [from_date, to_date])
+    cursor.execute("SELECT * from %s WHERE DateFormated > ? AND DATEfORMATED < ?" % table_name, [from_date, to_date])
 
     data = cursor.fetchall()
     data = pd.DataFrame(data=data,
@@ -80,8 +79,8 @@ def chart_trading_signals(buy_signals, sell_signals, hold_signals, fig, col, row
     ), col=col, row=row)
 
 
-def simple_moving_average(from_date, to_date):
-    data = get_data(from_date, to_date)
+def simple_moving_average(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['SMA-short'] = get_sma(data['Price'], 1)
     data['SMA-medium'] = get_sma(data['Price'], 7)
@@ -98,8 +97,8 @@ def simple_moving_average(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def exponential_moving_average(from_date, to_date):
-    data = get_data(from_date, to_date)
+def exponential_moving_average(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['EMA-short'] = get_ema(data['Price'], 1)
     data['EMA-medium'] = get_ema(data['Price'], 7)
@@ -115,15 +114,15 @@ def exponential_moving_average(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def cumulative_moving_average(from_date, to_date):
-    data = get_data(from_date, to_date)
+def cumulative_moving_average(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
     data['CMA'] = get_cma(data['Price'])
     fig = px.line(data, x=data.index, y=['Price', 'CMA'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def weighted_moving_average(from_date, to_date):
-    data = get_data(from_date, to_date)
+def weighted_moving_average(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['Signal'] = get_trading_signals_wma(data)
 
@@ -137,8 +136,8 @@ def weighted_moving_average(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def ribbon_moving_averages(from_date, to_date):
-    data = get_data(from_date, to_date)
+def ribbon_moving_averages(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
     data['SMA'] = get_sma(data['Price'], 7)
     data['EMA'] = get_ema(data['Price'], 7)
     data['CMA'] = get_cma(data['Price'])
@@ -147,8 +146,8 @@ def ribbon_moving_averages(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def macd(from_date, to_date):
-    data = get_data(from_date, to_date)
+def macd(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['MACD'] = get_macd(data['Price'])
 
@@ -159,8 +158,8 @@ def macd(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def rsi(from_date, to_date):
-    data = get_data(from_date, to_date)
+def rsi(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['RSI'] = get_rsi(data['Price'])
 
@@ -184,8 +183,8 @@ def rsi(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def stochastic_oscillator(from_date, to_date, code):
-    data = get_data(from_date, to_date)
+def stochastic_oscillator(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
     data['fast_k'], data['slow_k'] = get_stochastic_oscillator(data, period=14)
 
     data['ma50'] = get_sma(data['Price'], 50)
@@ -226,8 +225,8 @@ def stochastic_oscillator(from_date, to_date, code):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def adx_indicator(from_date, to_date):
-    data = get_data(from_date, to_date)
+def adx_indicator(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     data['adx'] = get_adx(data)
 
@@ -235,15 +234,15 @@ def adx_indicator(from_date, to_date):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def chart_cci(from_date, to_date):
-    data = get_data(from_date, to_date)
+def chart_cci(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
     data['cci'] = get_cci(data)
     fig = px.line(data, x=data.index, y=['Price', 'cci'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def money_fow_index(from_date, to_date):
-    data = get_data(from_date, to_date)
+def money_fow_index(from_date, to_date, table_name):
+    data = get_data(from_date, to_date, table_name)
 
     new_df = data[14:]
     new_df['MFI'] = get_mfi(data)

@@ -53,25 +53,25 @@ def get_chart():
 
     match option:
         case 'SMA':
-            plot = simple_moving_average(fromdate, todate)
+            plot = simple_moving_average(fromdate, todate, table_name)
         case 'EMA':
-            plot = exponential_moving_average(fromdate, todate)
+            plot = exponential_moving_average(fromdate, todate, table_name)
         case 'WMA':
-            plot = weighted_moving_average(fromdate, todate)
+            plot = weighted_moving_average(fromdate, todate, table_name)
         case 'MACD':
-            plot = macd(fromdate, todate)
+            plot = macd(fromdate, todate, table_name)
         case 'CMA':
-            plot = cumulative_moving_average(fromdate, todate)
+            plot = cumulative_moving_average(fromdate, todate, table_name)
         case 'ADX':
-            plot = adx_indicator(fromdate, todate)
+            plot = adx_indicator(fromdate, todate, table_name)
         case 'RSI':
-            plot = rsi(fromdate, todate)
+            plot = rsi(fromdate, todate, table_name)
         case 'CCI':
-            plot = chart_cci(fromdate, todate)
+            plot = chart_cci(fromdate, todate, table_name)
         case 'MFI':
-            plot = money_fow_index(fromdate, todate)
+            plot = money_fow_index(fromdate, todate, table_name)
         case 'RIBBON MA':
-            plot = ribbon_moving_averages(fromdate, todate)
+            plot = ribbon_moving_averages(fromdate, todate, table_name)
         case 'STOCHASTIC':
             plot = stochastic_oscillator(fromdate, todate, table_name)
 
