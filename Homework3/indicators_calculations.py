@@ -150,8 +150,8 @@ def get_cci(df, period=40):
     return CCI
 
 def get_macd(data):
-    ema1 = get_ema(data['Price'], 1)
-    ema30 = get_ema(data['Price'], 30)
+    ema1 = get_ema(data, 1)
+    ema30 = get_ema(data, 30)
     return ema1 - ema30
 
 
