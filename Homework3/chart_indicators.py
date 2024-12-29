@@ -8,6 +8,8 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from Homework3.indicators_calculations import *
 
+height = 500
+width = 1000
 
 def get_data(from_date, to_date, table_name):
     file = 'database.db'
@@ -99,7 +101,7 @@ def simple_moving_average(data):
                           data[data['Signal'] == 0],
                           fig, 1, 1)
 
-    fig.update_layout(height=600, width=1200, title_text="Simple Moving Average")
+    fig.update_layout(height=height, width=width, title_text="Simple Moving Average")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -117,7 +119,7 @@ def exponential_moving_average( data):
                           data[data['Signal'] == 0],
                           fig, 1, 1)
 
-    fig.update_layout(height=600, width=1200, title_text="Exponential Moving Average")
+    fig.update_layout(height=height, width=width, title_text="Exponential Moving Average")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -125,7 +127,7 @@ def exponential_moving_average( data):
 def cumulative_moving_average(data):
     data['CMA'] = get_cma(data['Price'])
     fig = px.line(data, x=data.index, y=['Price', 'CMA'])
-    fig.update_layout(height=600, width=1200, title_text="Cumulative Moving Average")
+    fig.update_layout(height=height, width=width, title_text="Cumulative Moving Average")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -140,7 +142,7 @@ def weighted_moving_average(data):
                           data[data['Signal'] == 0],
                           fig, 1, 1)
 
-    fig.update_layout(height=600, width=1200, title_text="Weighted Moving Average")
+    fig.update_layout(height=height, width=width, title_text="Weighted Moving Average")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -152,7 +154,7 @@ def ribbon_moving_averages(data):
     data['MACD'] = get_macd(data['Price'])
     fig = px.line(data, x=data.index, y=['Price', 'SMA', 'EMA', 'CMA', 'MACD'])
 
-    fig.update_layout(height=600, width=1200, title_text="Ribbon Moving Averages")
+    fig.update_layout(height=height, width=width, title_text="Ribbon Moving Averages")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -166,7 +168,7 @@ def macd(data):
 
     fig = px.line(data, x=data.index, y=['Price', 'MACD', 'Signal line'])
 
-    fig.update_layout(height=600, width=1200, title_text="Moving Average Convergence Divergence")
+    fig.update_layout(height=height, width=width, title_text="Moving Average Convergence Divergence")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -192,7 +194,7 @@ def rsi(data):
     fig.add_hline(y=30, line=dict(color='green', dash='dash'), row=2, col=1)
     fig.add_hline(y=70, line=dict(color='green', dash='dash'), row=2, col=1)
 
-    fig.update_layout(height=600, width=1200, title_text="Relative Strength Index (RSI)")
+    fig.update_layout(height=height, width=width, title_text="Relative Strength Index (RSI)")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -235,7 +237,7 @@ def stochastic_oscillator(data):
     fig.add_hline(y=20, line=dict(color='red', dash='dash'), row=2, col=1)
     fig.add_hline(y=80, line=dict(color='blue', dash='dash'), row=2, col=1)
 
-    fig.update_layout(height=600, width=1200, title_text="Stochastic Oscillator")
+    fig.update_layout(height=height, width=width, title_text="Stochastic Oscillator")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -244,7 +246,7 @@ def adx_indicator(data):
     data['adx'] = get_adx(data)
     fig = px.line(data, x=data.index, y=['Price', 'adx'], height=600)
 
-    fig.update_layout(height=600, width=1200, title_text="Average Directional Index (ADX)")
+    fig.update_layout(height=height, width=width, title_text="Average Directional Index (ADX)")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -253,7 +255,7 @@ def chart_cci(data):
     data['cci'] = get_cci(data)
     fig = px.line(data, x=data.index, y=['Price', 'cci'])
 
-    fig.update_layout(height=600, width=1200, title_text="Commodity Channel Index (CCI)")
+    fig.update_layout(height=height, width=width, title_text="Commodity Channel Index (CCI)")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -305,7 +307,7 @@ def money_fow_index(data):
     fig.add_hline(y=80, line=dict(color='blue', dash='dash'), row=2, col=1)
     fig.add_hline(y=90, line=dict(color='orange', dash='dash'), row=2, col=1)
 
-    fig.update_layout(height=600, width=1200, title_text="Money Flow Index (MFI)")
+    fig.update_layout(height=height, width=width, title_text="Money Flow Index (MFI)")
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
