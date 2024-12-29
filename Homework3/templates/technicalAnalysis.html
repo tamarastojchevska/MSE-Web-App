@@ -50,14 +50,12 @@
 
 
 <form action="{{ url_for('get_chart') }}" method="get">
-    <label>
-        from
+    <label>From
+        <input name="fromdate" type="date"/>
     </label>
-    <input name="fromdate" type="date"/>
-    <label>
-        to
-    </label>
+    <label>To
     <input name="todate" type="date"/>
+    </label>
     <select name="codes" >
         {% for code in codes %}
         <option value="{{ code }}">
@@ -80,7 +78,7 @@
     </select>
     <button type="submit" >Chart</button>
 </form>
-<div id='chart' class='chart'”><p>{{ message }}</p></div>
+<div id='chart' class='chart'><p>{{ message }}</p></div>
 
 
 <footer>
