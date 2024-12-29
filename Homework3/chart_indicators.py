@@ -1,6 +1,5 @@
 import json
 import sqlite3
-import pandas as pd
 from datetime import *
 import plotly
 import plotly.express as px

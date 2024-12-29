@@ -1,7 +1,4 @@
 from flask import Flask, render_template, request, send_from_directory, session
-from Homework1.scraper import get_codes
-from datetime import date
-import sqlite3
 from Homework3.chart_indicators import *
 from Homework3.scraper import get_issuers
 from Homework3.sqlite_database import *
@@ -128,6 +125,6 @@ def get_chart():
     return render_template('technicalAnalysis.html', codes=codes, graphJSON=plot, message=message, translations=translations)
 
 if __name__ == '__main__':
-    # main_db('database')
+    main_db('database')
     app.run(debug=True, host='0.0.0.0', port=5000)
 
