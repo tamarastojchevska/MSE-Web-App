@@ -50,33 +50,37 @@
 
 
 <form action="{{ url_for('get_chart') }}" method="get">
-    <label>From
+    <label>{{ translations['from'] }}
         <input name="fromdate" type="date"/>
     </label>
-    <label>To
+    <label>{{ translations['to'] }}
     <input name="todate" type="date"/>
     </label>
-    <select name="codes" >
-        {% for code in codes %}
-        <option value="{{ code }}">
-            {{ code }}
-        </option>
-        {% endfor %}
-    </select>
-    <select name="chart_option">
-        <option value="SMA">SMA</option>
-        <option value="EMA">EMA</option>
-        <option value="CMA">CMA</option>
-        <option value="WMA">WMA</option>
-        <option value="MACD">MACD</option>
-        <option value="RSI">RSI</option>
-        <option value="ADX">ADX</option>
-        <option value="CCI">CCI</option>
-        <option value="MFI">MFI</option>
-        <option value="RIBBON MA">RIBBON MA</option>
-        <option value="STOCHASTIC">STOCHASTIC</option>
-    </select>
-    <button type="submit" >Chart</button>
+    <label>{{ translations['issuer'] }}
+        <select name="codes" >
+            {% for code in codes %}
+            <option value="{{ code }}">
+                {{ code }}
+            </option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>{{ translations['indicator'] }}
+        <select name="chart_option">
+            <option value="SMA">SMA</option>
+            <option value="EMA">EMA</option>
+            <option value="CMA">CMA</option>
+            <option value="WMA">WMA</option>
+            <option value="MACD">MACD</option>
+            <option value="RSI">RSI</option>
+            <option value="ADX">ADX</option>
+            <option value="CCI">CCI</option>
+            <option value="MFI">MFI</option>
+            <option value="RIBBON MA">RIBBON MA</option>
+            <option value="STOCHASTIC">STOCHASTIC</option>
+        </select>
+    </label>
+    <button type="submit" >{{ translations['submit'] }}</button>
 </form>
 <div id='chart' class='chart'><p>{{ message }}</p></div>
 <div>
