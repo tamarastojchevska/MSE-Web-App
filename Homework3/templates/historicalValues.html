@@ -14,7 +14,7 @@
         <p class="display-3 text-end">MSE</p>
     </div>
     <hr>
-    <div class="px-3 py-2 text-bg-dark border-top border-bottom">
+    <div class="px-2 py-2 text-bg-dark border-top border-bottom">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
@@ -47,54 +47,77 @@
     </div>
 </header>
 
-<div class = "container">
-    <div class = "nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small p-3">
 
-        <form method="get" action="{{ url_for('get_table') }}"> <!-- i need to change this formatting it is disgusting-->
-            <label>From</label>
-            <input class = "mx-3" type="date" name="fromdate" >
-            <label class = "ms-5">To</label>
-            <input type="date" name="todate" class = "mx-2">
-            <select name="codes" class = "form-select">
-                {% for code in codes %}
-                <option value="{{ code }}">{{ code }}</option>
-                {% endfor %}
-            </select>
-            <button class = "mx-5 btn btn-secondary" type="submit">Submit</button>
-            <button class = "mx-5 btn btn-success">
-                <a href="{{url_for('download', filename=filename)}}" name="filename" class="bi text-white text-decoration-none">Download</a>
-            </button>
+<div class="px-3 py-2 border-top border-bottom">
+    <div class="container">
+        <form method="get" action="{{ url_for('get_table') }}">
+
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
+
+                <li class = "py-2">
+                    <label>From
+                    <input type="date" name="fromdate">
+                    </label>
+                </li>
+                <li class = "py-2">
+                    <label>To
+                    <input type="date" name="todate">
+                    </label>
+                </li>
+                <li class = "py-2">
+                    <label>
+                        <select name="codes" class = "form-select">
+                            {% for code in codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </li>
+                <li class = "py-2">
+                    <button class = "btn btn-secondary" type="submit">Submit</button>
+
+                </li>
+                <li>
+                </li>
+                <li>
+
+                </li>
+                <li class = "py-2">
+                    <button class = "btn btn-success">
+                        <a href="{{url_for('download', filename=filename)}}" name="filename" class="bi text-white text-decoration-none">Download</a>
+                    </button>
+                </li>
+
+            </ul>
         </form>
+        <table class = "table table-striped">
+            <thead>
+            <th data-translate="date">Date</th>
+            <th data-translate="price">Price</th>
+            <th data-translate="max">Max</th>
+            <th data-translate="min">Min</th>
+            <th data-translate="avgPrice">Avg Price</th>
+            <th data-translate="percent">%chg</th>
+            <th data-translate="volume">Volume</th>
+            <th data-translate="BEST">Turnover in BEST</th>
+            <th data-translate="turnover">Turnover</th>
+            </thead>
+            {% for row in table %}
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+                <td>{{row[6]}}</td>
+                <td>{{row[7]}}</td>
+                <td>{{row[8]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-
-    <table class = "table table-striped">
-        <thead>
-        <th data-translate="date">Date</th>
-        <th data-translate="price">Price</th>
-        <th data-translate="max">Max</th>
-        <th data-translate="min">Min</th>
-        <th data-translate="avgPrice">Avg Price</th>
-        <th data-translate="percent">%chg</th>
-        <th data-translate="volume">Volume</th>
-        <th data-translate="BEST">Turnover in BEST</th>
-        <th data-translate="turnover">Turnover</th>
-        </thead>
-        {% for row in table %}
-        <tr>
-            <td>{{row[0]}}</td>
-            <td>{{row[1]}}</td>
-            <td>{{row[2]}}</td>
-            <td>{{row[3]}}</td>
-            <td>{{row[4]}}</td>
-            <td>{{row[5]}}</td>
-            <td>{{row[6]}}</td>
-            <td>{{row[7]}}</td>
-            <td>{{row[8]}}</td>
-        </tr>
-        {% endfor %}
-    </table>
 </div>
-
 <footer>
     <div class="px-3 py-2 text-bg-dark border-top border-bottom">
         <div class="container">
