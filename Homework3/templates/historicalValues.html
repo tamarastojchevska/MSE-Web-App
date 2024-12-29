@@ -32,11 +32,15 @@
                         </a>
                     </li>
                     <li>
+                        <a href="technicalAnalysis.html" class="nav-link text-white">
+                            Market Insights
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ url_for('aboutus') }}" class="nav-link text-white">
                             About Us
                         </a>
                     </li>
-                    <li>
                 </ul>
             </div>
         </div>
@@ -51,7 +55,7 @@
             <input class = "mx-3" type="date" name="fromdate">
             <label class = "ms-5">To</label>
             <input type="date" name="todate" class = "mx-2">
-            <select name="codes" class = "mx-5">
+            <select name="codes" class = "form-select">
                 {% for code in codes %}
                 <option value="{{ code }}">{{ code }}</option>
                 {% endfor %}
