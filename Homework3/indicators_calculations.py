@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from ta.trend import ADXIndicator
 
 def get_mfi(data):
     typical_price = (data['Price'] + data['Max'] + data['Min']) / 3
