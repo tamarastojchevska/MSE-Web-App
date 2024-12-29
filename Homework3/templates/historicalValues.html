@@ -47,25 +47,45 @@
     </div>
 </header>
 
-<div class = "container">
-    <div class = "nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small p-3">
-
-        <form method="get" action="{{ url_for('get_table') }}"> <!-- i need to change this formatting it is disgusting-->
-            <label>From</label>
-            <input class = "mx-3" type="date" name="fromdate" >
-            <label class = "ms-5">To</label>
-            <input type="date" name="todate" class = "mx-2">
-            <select name="codes" class = "form-select">
-                {% for code in codes %}
-                <option value="{{ code }}">{{ code }}</option>
-                {% endfor %}
-            </select>
-            <button class = "mx-5 btn btn-secondary" type="submit">Submit</button>
-            <button class = "mx-5 btn btn-success">
-                <a href="{{url_for('download', filename=filename)}}" name="filename" class="bi text-white text-decoration-none">Download</a>
-            </button>
+<div class="px-3 py-2 border-top border-bottom">
+    <div class="container">
+        <form method="get" action="{{ url_for('get_table') }}">
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                <li class = "pe-5 py-2">
+                    <label>From
+                        <input class = "form-control" type="date" name="fromdate">
+                    </label>
+                </li>
+                <li class = "pe-5 py-2">
+                    <label>To
+                        <input class = "form-control" type="date" name="todate">
+                    </label>
+                </li>
+                <li class = "pe-5 py-2">
+                    <label>Company
+                        <select name="codes" class = "form-select">
+                            {% for code in codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </li>
+                <li class = "pe-5 py-2">
+                    <label></label>
+                        <button class = "btn btn-secondary form-control" type="submit">Submit</button>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+                <li class = "ps-5 py-2">
+                    <label></label>
+                        <button class = "btn btn-success form-control">
+                            <a href="{{url_for('download', filename=filename)}}" name="filename" class="bi text-white text-decoration-none">Download</a>
+                        </button>
+                </li>
+            </ul>
         </form>
-    </div>
 
     <table class = "table table-striped">
         <thead>
@@ -93,6 +113,7 @@
         </tr>
         {% endfor %}
     </table>
+    </div>
 </div>
 
 <footer>
