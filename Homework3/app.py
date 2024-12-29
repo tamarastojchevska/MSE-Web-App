@@ -106,27 +106,27 @@ def get_chart():
     if not data.empty:
         match option:
             case 'SMA':
-                plot = simple_moving_average(fromdate, todate, data)
+                plot = simple_moving_average(data)
             case 'EMA':
-                plot = exponential_moving_average(fromdate, todate, data)
+                plot = exponential_moving_average(data)
             case 'WMA':
-                plot = weighted_moving_average(fromdate, todate, data)
+                plot = weighted_moving_average(data)
             case 'MACD':
-                plot = macd(fromdate, todate, data)
+                plot = macd(data)
             case 'CMA':
-                plot = cumulative_moving_average(fromdate, todate, data)
+                plot = cumulative_moving_average(data)
             case 'ADX':
-                plot = adx_indicator(fromdate, todate, data)
+                plot = adx_indicator(data)
             case 'RSI':
-                plot = rsi(fromdate, todate, data)
+                plot = rsi(data)
             case 'CCI':
-                plot = chart_cci(fromdate, todate, data)
+                plot = chart_cci(data)
             case 'MFI':
-                plot = money_fow_index(fromdate, todate, data)
+                plot = money_fow_index(data)
             case 'RIBBON MA':
-                plot = ribbon_moving_averages(fromdate, todate, data)
+                plot = ribbon_moving_averages(data)
             case 'STOCHASTIC':
-                plot = stochastic_oscillator(fromdate, todate, data)
+                plot = stochastic_oscillator(data)
     else:
         if fromdate is not None and todate is not None:
             message = f'No data found for date {fromdate} and date {todate} for issuer {table_name}'

@@ -18,17 +18,23 @@ def get_data(from_date, to_date, table_name):
     if to_date == '':
         to_date = date.today().strftime('%Y-%m-%d')
 
-
     connection = sqlite3.connect(file)
     cursor = connection.cursor()
-    cursor.execute("SELECT * from %s WHERE DateFormated > ? AND DATEfORMATED < ?" % table_name, [from_date, to_date])
+    cursor.execute("SELECT * from %s WHERE DateFormated > ? AND DateFormated < ?" % table_name, [from_date, to_date])
 
     data = cursor.fetchall()
     data = pd.DataFrame(data=data,
-                        columns=['Date', 'Price', 'Max', 'Min', 'AvgPrice', 'chg', 'Volume', 'TurnoverBEST', 'Turnover',
+                        columns=['Date',
+                                 'Price',
+                                 'Max',
+                                 'Min',
+                                 'AvgPrice',
+                                 'chg',
+                                 'Volume',
+                                 'TurnoverBEST',
+                                 'Turnover',
                                  'DateFormated'])
 
-    data = data[(data['DateFormated'] >= from_date) & (data['DateFormated'] <= to_date)]
     data.sort_values('DateFormated', inplace=True, ascending=True)
     data.set_index('DateFormated', inplace=True)
 
@@ -39,11 +45,6 @@ def get_data(from_date, to_date, table_name):
         data['Volume'] = data['Volume'].astype('float64')
     else:
         data['Volume'] = data['Volume'].apply(lambda x: x.replace(',', '')).astype('float')
-
-    data = data[data.Price != 0.0]
-    data = data[data.Max != 0.0]
-    data = data[data.Min != 0.0]
-    data = data[data.Volume != 0.0]
 
     data = data.filter(['Price', 'Max', 'Min', 'Volume'])
     return data
@@ -58,7 +59,8 @@ def chart_trading_signals(buy_signals, sell_signals, hold_signals, fig, col, row
         marker_symbol='triangle-up',
         marker_size=10,
         marker_color='rgb(0, 255, 0)',
-        text='Buy'
+        text='Buy',
+        name='Buy'
     ), col=col, row=row)
 
     fig.add_trace(go.Scatter(
@@ -68,7 +70,8 @@ def chart_trading_signals(buy_signals, sell_signals, hold_signals, fig, col, row
         marker_symbol='triangle-down',
         marker_size=10,
         marker_color='rgb(255, 0, 0)',
-        text='Sell'
+        text='Sell',
+        name='Sell'
     ), col=col, row=row)
 
     fig.add_trace(go.Scatter(
@@ -78,13 +81,12 @@ def chart_trading_signals(buy_signals, sell_signals, hold_signals, fig, col, row
         marker_symbol='square',
         marker_size=10,
         marker_color='rgb(0, 0, 255)',
-        text='Hold'
+        text='Hold',
+        name='Hold'
     ), col=col, row=row)
 
 
-def simple_moving_average(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
-
+def simple_moving_average(data):
     data['SMA-short'] = get_sma(data['Price'], 1)
     data['SMA-medium'] = get_sma(data['Price'], 7)
     data['SMA-long'] = get_sma(data['Price'], 30)
@@ -100,9 +102,7 @@ def simple_moving_average(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def exponential_moving_average(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
-
+def exponential_moving_average( data):
     data['EMA-short'] = get_ema(data['Price'], 1)
     data['EMA-medium'] = get_ema(data['Price'], 7)
     data['EMA-long'] = get_ema(data['Price'], 30)
@@ -117,20 +117,17 @@ def exponential_moving_average(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def cumulative_moving_average(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def cumulative_moving_average(data):
     data['CMA'] = get_cma(data['Price'])
     fig = px.line(data, x=data.index, y=['Price', 'CMA'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def weighted_moving_average(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
-
+def weighted_moving_average(data):
     data['Signal'] = get_trading_signals_wma(data)
 
-    fig = go.Figure()
-    fig.add_trace(go.Line(x=data.index, y=data['Price'], line=dict(color='black')))
+    fig = make_subplots(rows=1, cols=1)
+    fig.add_trace(go.Line(x=data.index, y=data['Price'], line=dict(color='black'), name='Price'))
     chart_trading_signals(data[data['Signal'] == 1],
                           data[data['Signal'] == -1],
                           data[data['Signal'] == 0],
@@ -139,18 +136,16 @@ def weighted_moving_average(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def ribbon_moving_averages(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def ribbon_moving_averages(data):
     data['SMA'] = get_sma(data['Price'], 7)
     data['EMA'] = get_ema(data['Price'], 7)
     data['CMA'] = get_cma(data['Price'])
-    data['MACD'] = get_macd(data)
+    data['MACD'] = get_macd(data['Price'])
     fig = px.line(data, x=data.index, y=['Price', 'SMA', 'EMA', 'CMA', 'MACD'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def macd(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def macd(data):
 
     data['MACD'] = get_macd(data['Price'])
 
@@ -161,8 +156,7 @@ def macd(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def rsi(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def rsi(data):
 
     data['RSI'] = get_rsi(data['Price'])
 
@@ -186,8 +180,7 @@ def rsi(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def stochastic_oscillator(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def stochastic_oscillator(data):
     data['fast_k'], data['slow_k'] = get_stochastic_oscillator(data, period=14)
 
     data['ma50'] = get_sma(data['Price'], 50)
@@ -228,25 +221,20 @@ def stochastic_oscillator(from_date, to_date, table_name):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def adx_indicator(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
-
+def adx_indicator(data):
     data['adx'] = get_adx(data)
 
     fig = px.line(data, x=data.index, y=['Price', 'adx'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def chart_cci(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
+def chart_cci(data):
     data['cci'] = get_cci(data)
     fig = px.line(data, x=data.index, y=['Price', 'cci'])
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def money_fow_index(from_date, to_date, table_name):
-    data = get_data(from_date, to_date, table_name)
-
+def money_fow_index(data):
     new_df = data[14:]
     new_df['MFI'] = get_mfi(data)
     new_df['Buy'] = get_signal(new_df, 80, 20)[0]
@@ -294,7 +282,4 @@ def money_fow_index(from_date, to_date, table_name):
     fig.add_hline(y=90, line=dict(color='orange', dash='dash'), row=2, col=1)
 
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-
-
 
