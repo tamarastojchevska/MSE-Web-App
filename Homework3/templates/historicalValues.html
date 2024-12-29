@@ -68,6 +68,17 @@
     </div>
 
     <table class = "table table-striped">
+        <thead>
+        <th data-translate="date">Date</th>
+        <th data-translate="price">Price</th>
+        <th data-translate="max">Max</th>
+        <th data-translate="min">Min</th>
+        <th data-translate="avgPrice">Avg Price</th>
+        <th data-translate="percent">%chg</th>
+        <th data-translate="volume">Volume</th>
+        <th data-translate="BEST">Turnover in BEST</th>
+        <th data-translate="turnover">Turnover</th>
+        </thead>
         {% for row in table %}
         <tr>
             <td>{{row[0]}}</td>

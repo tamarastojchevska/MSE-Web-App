@@ -11,5 +11,14 @@
   "homePage" : "The primary goal of this web application is to provide users with easy and convenient access to historical daily stock market data spanning the past 10 years regarding the Macedonian Stock Exchange. The comprehensive features provide a clear view of market fluctuations, offering users the opportunity to identify trends, assess trading opportunities, and optimize their investment strategies.",
   "headerAbtUs" : "Contributors",
   "contributors" : "This project has been developed by Marija Ilievska & Tamara Stojchevska.\n                Check out our githubs!",
-  "current" : "EN"
+  "current" : "EN",
+  "date" : "Date",
+  "price" : "Price",
+  "max" : "Max",
+  "min" : "Min",
+  "avgPrice" : "Average Price",
+  "percent":  "%chg",
+  "volume" : "Volume",
+  "BEST" : "Turnover in BEST in denars",
+  "turnover" : "Total Turnover in denars"
 }
