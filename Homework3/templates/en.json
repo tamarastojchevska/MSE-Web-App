@@ -25,5 +25,6 @@
   "to" : "To",
   "issuer" : "Issuer",
   "submit" : "Submit",
-  "download" : "Download"
+  "download" : "Download",
+  "indicator" : "Indicator"
 }
