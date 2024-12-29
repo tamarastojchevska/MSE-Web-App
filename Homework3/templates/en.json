@@ -20,5 +20,10 @@
   "percent":  "%chg",
   "volume" : "Volume",
   "BEST" : "Turnover in BEST in denars",
-  "turnover" : "Total Turnover in denars"
+  "turnover" : "Total Turnover in denars",
+  "from": "From",
+  "to" : "To",
+  "issuer" : "Issuer",
+  "submit" : "Submit",
+  "download" : "Download"
 }
