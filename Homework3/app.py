@@ -8,7 +8,7 @@ from Homework3.sqlite_database import *
 
 
 TODAY = date.strftime(date.today(), '%Y-%m-%d')
-UPLOAD_FOLDER = '/database/'
+UPLOAD_FOLDER = './database/'
 
 def load_translations(lang):
     path = './templates/'+lang+'.json'
