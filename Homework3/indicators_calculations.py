@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from ta.trend import ADXIndicator
 
 def get_mfi(data):
@@ -25,16 +26,12 @@ def get_mfi(data):
     positive_mf = []
     negative_mf = []
 
-    print("pos", len(positive_flow))
-    print("neg", len(negative_flow))
-
     for i in range(period - 1, len(positive_flow)):
         positive_mf.append(sum(positive_flow[i + 1 - period: i + 1]))
 
     for i in range(period - 1, len(negative_flow)):
         negative_mf.append(sum(negative_flow[i + 1 - period: i + 1]))
-    print("pos", len(positive_mf))
-    print("neg", len(negative_mf))
+
     return 100 * (np.array(positive_mf) / (np.array(positive_mf) + np.array(negative_mf) ))
 
 
@@ -132,13 +129,25 @@ def get_stochastic_oscillator(data, period=14):
 
     return fast_k, slow_k
 
+def get_adx(high, low, close, lookback):
+    plus_dm = high.diff()
+    minus_dm = low.diff()
+    plus_dm[plus_dm < 0] = 0
+    minus_dm[minus_dm > 0] = 0
 
-def get_adx(data):
-    data['gain'] = np.where(data['Price'].diff() > 0, data['Price'].diff(), 0)
-    data['loss'] = np.where(data['Price'].diff() < 0, data['Price'].diff(), 0)
+    tr1 = pd.DataFrame(high - low)
+    tr2 = pd.DataFrame(abs(high - close.shift(1)))
+    tr3 = pd.DataFrame(abs(low - close.shift(1)))
+    frames = [tr1, tr2, tr3]
+    tr = pd.concat(frames, axis=1, join='inner').max(axis=1)
+    atr = tr.rolling(lookback).mean()
 
-    adx_ind = ADXIndicator(high=data['gain'], low=data['loss'], close=data['Price'], window=14, fillna=False)
-    return adx_ind.adx()
+    plus_di = 100 * (plus_dm.ewm(alpha=1 / lookback).mean() / atr)
+    minus_di = abs(100 * (minus_dm.ewm(alpha=1 / lookback).mean() / atr))
+    dx = (abs(plus_di - minus_di) / abs(plus_di + minus_di)) * 100
+    adx = ((dx.shift(1) * (lookback - 1)) + dx) / lookback
+    adx_smooth = adx.ewm(alpha=1 / lookback).mean()
+    return plus_di, minus_di, adx_smooth
 
 def get_cci(df, period=40):
     TP = (df['Max']+df['Min']+df['Price'])/3

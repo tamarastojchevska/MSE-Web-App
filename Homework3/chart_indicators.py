@@ -243,8 +243,41 @@ def stochastic_oscillator(data):
 
 
 def adx_indicator(data):
-    data['adx'] = get_adx(data)
-    fig = px.line(data, x=data.index, y=['Price', 'adx'], height=600)
+    data['plus_di'] = pd.DataFrame(get_adx(data['Max'], data['Min'], data['Price'], 14)[0]).rename(
+        columns={0: 'plus_di'})
+    data['minus_di'] = pd.DataFrame(get_adx(data['Max'], data['Min'], data['Price'], 14)[1]).rename(
+        columns={0: 'minus_di'})
+    data['adx'] = pd.DataFrame(get_adx(data['Max'], data['Min'], data['Price'], 14)[2]).rename(columns={0: 'adx'})
+
+    fig = make_subplots(rows=2, cols=1)
+    fig.add_trace(go.Line(
+        x=data.index,
+        y=data['Price'],
+        name='Price'
+    ), row=1, col=1)
+
+    fig.add_trace(go.Line(
+        x=data.index,
+        y=data['adx'],
+        name='ADX',
+        line=dict(color='blue')
+    ), row=2, col=1)
+
+    fig.add_trace(go.Line(
+        x=data.index,
+        y=data['plus_di'],
+        name='plus_di',
+        line=dict(color='green'),
+        opacity=0.5
+    ), row=2, col=1)
+
+    fig.add_trace(go.Line(
+        x=data.index,
+        y=data['minus_di'],
+        name='minus_di',
+        line=dict(color='red'),
+        opacity=0.5
+    ), row=2, col=1)
 
     fig.update_layout(height=height, width=width, title_text="Average Directional Index (ADX)")
 
