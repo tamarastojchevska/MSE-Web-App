@@ -66,7 +66,12 @@
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                 </a>
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small align-items-center">
+                    <li>
+                        <button id="translations" class="btn btn-dark" data-translate="current">
+                            EN
+                        </button>
+                    </li>
                     <li>
                         <button class="btn btn-dark">
                             <a href="https://github.com/tamarastojchevska/MSE-Web-App" class="bi text-white">
@@ -103,7 +108,7 @@
     async function loadTranslations() {
         translations.en = await fetch('en.json').then(res => res.json());
         translations.mk = await fetch('mk.json').then(res => res.json());
-        setLanguage(localStorage.getItem('language') || 'en'); // Default to English
+        setLanguage(localStorage.getItem('language') || 'en');
     }
 
     function setLanguage(lang) {
@@ -114,11 +119,14 @@
         });
     }
 
-    document.getElementById('languageSwitcher').addEventListener('change', (event) => {
-        setLanguage(event.target.value);
+    document.getElementById('translations').addEventListener('click', () => {
+        const currentLang = localStorage.getItem('language') || 'en';
+        const newLang = currentLang === 'en' ? 'mk' : 'en';
+        setLanguage(newLang);
     });
 
     loadTranslations();
+
 </script>
 
 <script>
