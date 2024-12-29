@@ -8,7 +8,7 @@ from Homework3.sqlite_database import *
 
 
 TODAY = date.strftime(date.today(), '%Y-%m-%d')
-UPLOAD_FOLDER = '../../Homework1/database/'
+UPLOAD_FOLDER = '/database/'
 
 def load_translations(lang):
     path = './templates/'+lang+'.json'
@@ -42,13 +42,7 @@ def aboutus():
 
 @app.route("/download <path:filename>", methods=["GET"])
 def download(filename):
-    session.permanent = False
-    lang = request.args.get('lang')
-    if lang is None:
-        lang = session.get('lang')
-    session['lang'] = lang
-    translations = load_translations(lang)
-    return send_from_directory(UPLOAD_FOLDER, filename, translations=translations)
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 @app.route('/hystoricalValues', methods=['GET'])
 def get_table():
