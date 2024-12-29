@@ -3,6 +3,7 @@ from Homework1.scraper import get_codes
 from datetime import date
 import sqlite3
 from Homework3.chart_indicators import *
+from Homework3.sqlite_database import *
 
 TODAY = date.strftime(date.today(), '%Y-%m-%d')
 UPLOAD_FOLDER = '../../Homework1/database/'
@@ -58,34 +59,40 @@ def get_chart():
     option = request.args.get('chart_option')
 
     plot = None
+    message = ''
 
-    match option:
-        case 'SMA':
-            plot = simple_moving_average(fromdate, todate, table_name)
-        case 'EMA':
-            plot = exponential_moving_average(fromdate, todate, table_name)
-        case 'WMA':
-            plot = weighted_moving_average(fromdate, todate, table_name)
-        case 'MACD':
-            plot = macd(fromdate, todate, table_name)
-        case 'CMA':
-            plot = cumulative_moving_average(fromdate, todate, table_name)
-        case 'ADX':
-            plot = adx_indicator(fromdate, todate, table_name)
-        case 'RSI':
-            plot = rsi(fromdate, todate, table_name)
-        case 'CCI':
-            plot = chart_cci(fromdate, todate, table_name)
-        case 'MFI':
-            plot = money_fow_index(fromdate, todate, table_name)
-        case 'RIBBON MA':
-            plot = ribbon_moving_averages(fromdate, todate, table_name)
-        case 'STOCHASTIC':
-            plot = stochastic_oscillator(fromdate, todate, table_name)
+    data = get_data(fromdate, todate, table_name)
+    if not data.empty:
+        match option:
+            case 'SMA':
+                plot = simple_moving_average(fromdate, todate, data)
+            case 'EMA':
+                plot = exponential_moving_average(fromdate, todate, data)
+            case 'WMA':
+                plot = weighted_moving_average(fromdate, todate, data)
+            case 'MACD':
+                plot = macd(fromdate, todate, data)
+            case 'CMA':
+                plot = cumulative_moving_average(fromdate, todate, data)
+            case 'ADX':
+                plot = adx_indicator(fromdate, todate, data)
+            case 'RSI':
+                plot = rsi(fromdate, todate, data)
+            case 'CCI':
+                plot = chart_cci(fromdate, todate, data)
+            case 'MFI':
+                plot = money_fow_index(fromdate, todate, data)
+            case 'RIBBON MA':
+                plot = ribbon_moving_averages(fromdate, todate, data)
+            case 'STOCHASTIC':
+                plot = stochastic_oscillator(fromdate, todate, data)
+    else:
+        if fromdate is not None and todate is not None:
+            message = f'No data found for date {fromdate} and date {todate} for issuer {table_name}'
 
-
-    return render_template('technicalAnalysis.html', codes=codes, graphJSON=plot)
+    return render_template('technicalAnalysis.html', codes=codes, graphJSON=plot, message=message)
 
 if __name__ == '__main__':
+    # main_db('database')
     app.run(debug=True)
 
