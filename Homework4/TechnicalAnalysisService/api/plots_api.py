@@ -1,8 +1,8 @@
 import plotly
 from flask import jsonify
 from Homework4.TechnicalAnalysisService import plot_bp
-from Homework4.TechnicalAnalysisService.TechnicalAnalysis.calculations import Calculations
-from Homework4.TechnicalAnalysisService.TechnicalAnalysis.plots import Plots
+from Homework4.TechnicalAnalysisService.model.calculations import Calculations
+from Homework4.TechnicalAnalysisService.model.plots import Plots
 
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
