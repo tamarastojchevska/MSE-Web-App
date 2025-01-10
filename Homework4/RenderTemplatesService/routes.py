@@ -35,7 +35,7 @@ def about_us():
         lang = session.get('lang')
     session['lang'] = lang
     translations = load_translations(lang)
-    return render_template('aboutUs.html',
+    return render_template('about_us.html',
                            translations=translations)
 
 @templates_bp.route('/historical-values')
@@ -66,7 +66,7 @@ def historical_values():
 
     filename = ticker + '.csv'
 
-    return render_template('historicalValues.html',
+    return render_template('historical_values.html',
                            tickers=tickers,
                            table=table,
                            filename=filename,
@@ -135,7 +135,7 @@ def technical_analysis():
         if from_date is not None and to_date is not None:
             message = f'No data found for date {from_date} and date {to_date} for issuer {ticker}'
 
-    return render_template('technicalAnalysis.html',
+    return render_template('technical_analysis.html',
                            tickers=tickers,
                            graphJSON=plot,
                            message=message,
