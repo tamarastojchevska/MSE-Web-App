@@ -95,7 +95,7 @@
         </form>
 
     <div class = "d-flex justify-content-center align-items-center text-center m-auto">
-        <div id='chart' class="chart text-center py-2"><p>{{ message }}</p></div>
+        <div id='chart' class="chart text-center py-2 table-responsive"><p>{{ message }}</p></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
         <script type='text/javascript'>
             var graphs = {{ graphJSON | safe }};
