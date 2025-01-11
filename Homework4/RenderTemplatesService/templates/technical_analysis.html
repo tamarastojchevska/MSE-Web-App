@@ -49,18 +49,18 @@
 <div class="px-3 py-2 border-top border-bottom">
     <div class="container">
         <form action="{{ url_for('.technical_analysis') }}" method="get">
-            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                <li class = "pe-5 py-2">
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
+                <li>
                     <label>{{ translations['from'] }}
                         <input class = "form-control" type="date" name="from_date">
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li>
                     <label>{{ translations['to'] }}
                         <input class = "form-control" type="date" name="to_date">
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li>
                     <label>{{ translations['issuer'] }}
                         <select class = "form-select" name="tickers" >
                             {% for ticker in tickers %}
@@ -70,7 +70,7 @@
                         </select>
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li class = "">
                     <label>{{ translations['indicator'] }}
                             <select class = "form-select" name="plot_option">
                                 <option value="SMA">SMA</option>
@@ -87,7 +87,7 @@
                             </select>
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li>
                     <label></label>
                     <button class = "btn btn-success form-control" type="submit">{{ translations['submit'] }}</button>
                 </li>
