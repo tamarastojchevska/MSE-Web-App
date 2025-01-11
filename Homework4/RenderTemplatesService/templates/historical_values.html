@@ -49,18 +49,18 @@
 <div class="px-3 py-2 border-top border-bottom container-middle">
     <div class="container">
         <form method="get" action="{{ url_for('.historical_values') }}">
-            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                <li class = "pe-5 py-2">
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
+                <li class = "">
                     <label>{{ translations['from'] }}
                         <input class = "form-control" type="date" name="from_date">
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li class = "">
                     <label>{{ translations['to'] }}
                         <input class = "form-control" type="date" name="to_date">
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li class = "">
                     <label>{{ translations['issuer'] }}
                         <select name="tickers" class = "form-select">
                             {% for ticker in tickers %}
@@ -69,7 +69,7 @@
                         </select>
                     </label>
                 </li>
-                <li class = "pe-5 py-2">
+                <li class = "">
                     <label></label>
                         <button class = "btn btn-secondary form-control" type="submit">{{ translations['submit'] }}</button>
                 </li>
@@ -77,7 +77,7 @@
                 </li>
                 <li>
                 </li>
-                <li class = "ps-5 py-2">
+                <li class = "">
                     <label></label>
                         <button title = "Download all available data for selected company." class = "btn btn-success form-control">
                             {{ translations['download'] }}
