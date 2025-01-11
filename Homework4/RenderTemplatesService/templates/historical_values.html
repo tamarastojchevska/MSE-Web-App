@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <!-- Header -->
 
@@ -46,8 +46,12 @@
     </div>
 </header>
 
-<div class="px-3 py-2 border-top border-bottom container-middle">
+<!-- Main content -->
+
+<main class="container flex-grow-1">
+<div class="my-5 container-middle">
     <div class="container">
+        <div class = "">
         <form method="get" action="{{ url_for('.historical_values') }}">
             <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
                 <li>
@@ -73,11 +77,9 @@
                     <label></label>
                         <button class = "btn btn-secondary form-control" type="submit">{{ translations['submit'] }}</button>
                 </li>
+                <li></li>
+                <li></li>
                 <li>
-                </li>
-                <li>
-                </li>
-                <li class = "">
                     <label></label>
                         <button title = "Download all available data for selected company." class = "btn btn-success form-control">
                             {{ translations['download'] }}
@@ -85,7 +87,8 @@
                 </li>
             </ul>
         </form>
-<div>
+        </div>
+<div class = "p-5">
     <div class = "table-responsive">
     <table class = "table table-striped">
         <thead>
@@ -117,7 +120,7 @@
         </div>
     </div>
 </div>
-
+</main>
 <!-- Footer -->
 
 <footer>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <!-- Header -->
 
@@ -46,7 +46,10 @@
     </div>
 </header>
 
-<div class="px-3 py-2 border-top border-bottom">
+<!-- Main content -->
+
+<main class="container flex-grow-1">
+<div class="m-5">
     <div class="container">
         <form action="{{ url_for('.technical_analysis') }}" method="get">
             <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
@@ -104,7 +107,7 @@
     </div>
 </div>
 </div>
-
+</main>
 <!-- Footer -->
 
 <footer>
