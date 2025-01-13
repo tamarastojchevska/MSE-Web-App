@@ -14,7 +14,7 @@ def load_translations(lang):
     with open(path, encoding="utf8") as f:
         return json.load(f)
 
-@templates_bp.route('/', methods=['GET', 'POST'])
+@templates_bp.route('/', methods=['GET'])
 def index():
     session.permanent = False
     lang = request.args.get('lang')
@@ -27,7 +27,7 @@ def index():
     return render_template('index.html',
                            translations=translations)
 
-@templates_bp.route('/about-us', methods=['GET', 'POST'])
+@templates_bp.route('/about-us', methods=['GET'])
 def about_us():
     session.permanent = False
     lang = request.args.get('lang')
@@ -38,7 +38,7 @@ def about_us():
     return render_template('about_us.html',
                            translations=translations)
 
-@templates_bp.route('/historical-values')
+@templates_bp.route('/historical-values', methods=['GET'])
 def historical_values():
     session.permanent = False
     lang = request.args.get('lang')
@@ -71,7 +71,7 @@ def historical_values():
                            to_date=to_date,
                            translations=translations)
 
-@templates_bp.route('/technical-analysis')
+@templates_bp.route('/technical-analysis', methods=['GET'])
 def technical_analysis():
     session.permanent = False
     lang = request.args.get('lang')
