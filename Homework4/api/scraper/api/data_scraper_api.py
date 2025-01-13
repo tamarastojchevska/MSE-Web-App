@@ -1,6 +1,6 @@
 from flask import jsonify
-from Homework4.DataScraperService import data_bp
-from Homework4.DataScraperService.model.data_scraper import DataScraper
+from Homework4.api.scraper import data_bp
+from Homework4.api.scraper.model.data_scraper import DataScraper
 
 
 @data_bp.route('/tickers/scraper/<string:ticker>', methods=['GET'])

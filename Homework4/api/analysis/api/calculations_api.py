@@ -1,6 +1,6 @@
 from flask import jsonify
-from Homework4.TechnicalAnalysisService import calculations_bp
-from Homework4.TechnicalAnalysisService.model.calculations import Calculations
+from Homework4.api.analysis import calculations_bp
+from Homework4.api.analysis.model.calculations import Calculations
 
 
 @calculations_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'

@@ -1,6 +1,6 @@
 import requests
-from Homework4.CSVdataService.model.data_to_csv import CSVdata
-from Homework4.SQLiteService.model.sqlite_database import SqliteDatabase
+from Homework4.api.csv.model.data_to_csv import CSVdata
+from Homework4.api.sqlite.model.sqlite_database import SqliteDatabase
 
 
 tickers_url = 'http://127.0.0.1:5000/tickers'

@@ -1,11 +1,11 @@
 from flask import Flask
 
-from Homework4.DataScraperService.api import data_scraper_api
-from Homework4.RenderTemplatesService import routes as templates_api
-from Homework4.SQLiteService.api import sqlite_api
-from Homework4.TechnicalAnalysisService.api import plots_api, calculations_api
-from Homework4.TickersService.api import tickers_api
-from Homework4.CSVdataService.api import csv_data_api
+from Homework4.api.scraper.api import data_scraper_api
+from Homework4.frontend import routes as templates_api
+from Homework4.api.sqlite.api import sqlite_api
+from Homework4.api.analysis.api import calculations_api, plots_api
+from Homework4.api.tickers.api import tickers_api
+from Homework4.api.csv.api import csv_data_api
 
 app = Flask(__name__)
 app.secret_key = 'SECRET_KEY'

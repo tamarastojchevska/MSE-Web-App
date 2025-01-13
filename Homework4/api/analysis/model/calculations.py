@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from Homework4.TechnicalAnalysisService.model.technical_analysis import TechnicalAnalysis
+from Homework4.api.analysis.model.technical_analysis import TechnicalAnalysis
 
 
 class Calculations(TechnicalAnalysis):

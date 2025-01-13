@@ -1,6 +1,6 @@
 import sqlite3
-from Homework4.SQLiteService import sqlite_bp
-from Homework4.SQLiteService.model.sqlite_database import SqliteDatabase
+from Homework4.api.sqlite import sqlite_bp
+from Homework4.api.sqlite.model.sqlite_database import SqliteDatabase
 
 
 @sqlite_bp.route('/tickers/sqlite/<string:ticker>', methods=['GET'])

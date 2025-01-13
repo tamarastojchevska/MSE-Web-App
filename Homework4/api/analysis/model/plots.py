@@ -4,7 +4,7 @@ import plotly
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-from Homework4.TechnicalAnalysisService.model.technical_analysis import TechnicalAnalysis
+from Homework4.api.analysis.model.technical_analysis import TechnicalAnalysis
 
 
 class Plots(TechnicalAnalysis):

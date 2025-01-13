@@ -2,7 +2,7 @@ import json
 from datetime import date, timedelta
 
 import requests
-from Homework4.RenderTemplatesService import templates_bp
+from Homework4.frontend import templates_bp
 from flask import render_template, request, session
 
 TODAY = date.today()
@@ -10,7 +10,7 @@ tickers_api_url = 'http://127.0.0.1:5000/tickers'
 sqlite_ticker_data_url = 'http://127.0.0.1:5000/tickers/sqlite/'
 
 def load_translations(lang):
-    path = './RenderTemplatesService/templates/translations/'+lang+'.json'
+    path = './templates/translations/'+lang+'.json'
     with open(path, encoding="utf8") as f:
         return json.load(f)
 
@@ -100,7 +100,6 @@ def technical_analysis():
 
 
     if from_date is not None and to_date is not None:
-        print('in if statement')
         ticker_plot_url = ('http://127.0.0.1:5000/tickers/'
                            + ticker + ' '
                            + from_date + ' '
