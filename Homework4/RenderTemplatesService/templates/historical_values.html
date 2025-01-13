@@ -66,7 +66,7 @@
                         </li>
                         <li>
                             <label>{{ translations['issuer'] }}
-                                <select name="tickers" class = "form-select">
+                                <select name="tickers" class = "form-select" onchange="sendFilename()" id="tickers">
                                     {% for ticker in tickers %}
                                     <option value="{{ ticker }}">{{ ticker }}</option>
                                     {% endfor %}
@@ -79,14 +79,17 @@
                         </li>
                         <li></li>
                         <li></li>
-                        <li>
-                            <label></label>
-                                <button title = "Download all available data for selected company." class = "btn btn-success form-control">
-                                    {{ translations['download'] }}
-                                </button>
-                        </li>
                     </ul>
                 </form>
+                        <li>
+                            <label></label>
+                                <form action="{{ url_for('csv.csv_data_download') }}" method="get">
+                                    <input hidden="hidden" name="filename">
+                                    <button title = "Download all available data for selected company." class = "btn btn-success form-control">
+                                        {{ translations['download'] }}
+                                    </button>
+                                </form>
+                        </li>
                 <div class = "p-5">
                     <div class = "table-responsive">
                         <table class = "table table-striped">
@@ -170,6 +173,13 @@
         }
 
     </script>
-
+    <script>
+    function sendFilename(){
+        var select = document.getElementById('tickers')
+        var filename = select.options[select.selectedIndex].value.concat('.csv')
+        var temp = document.getElementsByName('filename')[0]
+        temp.value = filename
+    }
+    </script>
 </body>
 </html>
