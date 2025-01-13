@@ -58,7 +58,7 @@ def historical_values():
     to_date = request.args.get("to_date")
 
     if from_date is None and to_date is None:
-        from_date = (TODAY - timedelta(days=7)).strftime("%Y-%m-%d")
+        from_date = (TODAY - timedelta(days=30)).strftime("%Y-%m-%d")
         to_date = TODAY.strftime("%Y-%m-%d")
 
     if from_date is not None and to_date is not None:
