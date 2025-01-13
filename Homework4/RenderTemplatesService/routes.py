@@ -64,12 +64,11 @@ def historical_values():
     if from_date is not None and to_date is not None:
         table = requests.get(sqlite_ticker_data_url + ticker + ' ' + from_date + ' ' + to_date).json()
 
-    filename = ticker + '.csv'
-
     return render_template('historical_values.html',
                            tickers=tickers,
                            table=table,
-                           filename=filename,
+                           from_date=from_date,
+                           to_date=to_date,
                            translations=translations)
 
 @templates_bp.route('/technical-analysis')
@@ -138,6 +137,8 @@ def technical_analysis():
     return render_template('technical_analysis.html',
                            tickers=tickers,
                            graphJSON=plot,
+                           from_date=from_date,
+                           to_date=to_date,
                            message=message,
                            translations=translations)
 
