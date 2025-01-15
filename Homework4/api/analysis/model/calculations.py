@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 
 
-
 def get_trading_signals(val1, val2):
     if val1 > val2:
         return 1
@@ -105,13 +104,13 @@ def average_directional_index(high, low, close, lookback=14):
 
 
 def commodity_channel_index(high, low, close, period=40):
-    TP = (high + low + close) / 3
-    SMA = TP.rolling(period).mean()
-    mad = TP.rolling(window=period).apply(
+    tp = (high + low + close) / 3
+    sma = tp.rolling(period).mean()
+    mad = tp.rolling(window=period).apply(
         lambda x: np.mean(np.abs(x - np.mean(x))), raw=True
     )
-    CCI = (TP - SMA) / (0.015 * mad)
-    return CCI
+    cci = (tp - sma) / (0.015 * mad)
+    return cci
 
 
 def moving_average_convergence_divergence(price):

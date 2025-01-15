@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from Homework4.api import api_urls
 
 
-def check_number_in_string(s):  # for a given string it checks if it contains a number
+def check_number_in_string(s):
     return any(i.isdigit() for i in s)
 
 def scrape_tickers():

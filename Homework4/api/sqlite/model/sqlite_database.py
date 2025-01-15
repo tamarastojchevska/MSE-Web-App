@@ -1,14 +1,11 @@
 from datetime import date, datetime, timedelta
 import pandas as pd
 import sqlite3
-
 import requests
-
 from Homework4.api import api_urls
 
 TODAY = date.today().strftime('%Y-%m-%d')
 DB_PATH = 'database.db'
-
 
 
 def db_connection():
@@ -30,7 +27,7 @@ def upload_ticker_data_to_database(ticker):
         add_ticker_data(ticker)
     connection.close()
 
-
+# return ticker data with or without given dates from the database
 def get_ticker_data(ticker, from_date=None, to_date=None):
     connection = db_connection()
     cursor = connection.cursor()
@@ -42,7 +39,7 @@ def get_ticker_data(ticker, from_date=None, to_date=None):
     connection.close()
     return data
 
-
+# update the database for the new scraped ticker data
 def update_ticker_data(ticker):
     connection = db_connection()
     cursor = connection.cursor()
@@ -64,7 +61,7 @@ def update_ticker_data(ticker):
     connection.commit()
     connection.close()
 
-
+# add scraped ticker data to database
 def add_ticker_data(ticker):
     connection = db_connection()
     cursor = connection.cursor()

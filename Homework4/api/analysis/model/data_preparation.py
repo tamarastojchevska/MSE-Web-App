@@ -1,6 +1,5 @@
 import pandas as pd
 import requests
-
 from Homework4.api import api_urls
 
 
@@ -30,6 +29,7 @@ def get_data(ticker, from_date, to_date):
     data['Price'] = data['Price'].apply(lambda x: parse_string_to_float(x))
     data['Max'] = data['Max'].apply(lambda x: parse_string_to_float(x))
     data['Min'] = data['Min'].apply(lambda x: parse_string_to_float(x))
+
     if data.dtypes['Volume'] == 'int64' or data.dtypes['Volume'] == 'int32':
         data['Volume'] = data['Volume'].astype('float64')
     else:

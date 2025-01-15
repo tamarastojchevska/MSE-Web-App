@@ -2,12 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 from datetime import datetime
-
 from Homework4.api import api_urls
 
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
-
-
 TODAY = date.today()
 TO_DATE = TODAY.strftime("%Y-%m-%d")
 FROM_DATE = (TODAY - timedelta(days=3650)).strftime("%Y-%m-%d")
@@ -39,7 +36,7 @@ def last_year_date(date, years=1):
     return date - timedelta(days=364*years)
 
 
-    # GET RAW TICKER DATA AND FORMAT IT
+# scrape ticker data and format it for further use
 def scrape_data(ticker, from_date, to_date):
     data = {}
     # get http request with the given parameters
@@ -76,7 +73,7 @@ def scrape_data(ticker, from_date, to_date):
     return data
 
 
-# UPDATE TICKER DATA (GET MISSING DATA)
+# update ticker data with new scraped data
 def get_ticker_data(ticker, from_date=FROM_DATE, to_date=TO_DATE):
     data = {}
 
