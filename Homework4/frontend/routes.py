@@ -1,8 +1,6 @@
 import json
 from datetime import date, timedelta
-
 import requests
-
 from Homework4.api import api_urls
 from Homework4.frontend import templates_bp
 from flask import render_template, request, session
@@ -10,43 +8,43 @@ from flask import render_template, request, session
 TODAY = date.today()
 
 
-def load_translations(lang):
+def load_translations_file(lang):
     path = './templates/translations/'+lang+'.json'
     with open(path, encoding="utf8") as f:
         return json.load(f)
 
-@templates_bp.route('/', methods=['GET'])
-def index():
+def set_lang_session():
     session.permanent = False
     lang = request.args.get('lang')
+
     if session.get('lang') is None:
         session['lang'] = 'en'
+
     if lang is None:
         lang = session.get('lang')
+
     session['lang'] = lang
-    translations = load_translations(lang)
+    return lang
+
+def get_translations():
+    return load_translations_file(set_lang_session())
+
+
+@templates_bp.route('/', methods=['GET'])
+def index():
+    translations = get_translations()
     return render_template('index.html',
                            translations=translations)
 
 @templates_bp.route('/about-us', methods=['GET'])
 def about_us():
-    session.permanent = False
-    lang = request.args.get('lang')
-    if lang is None:
-        lang = session.get('lang')
-    session['lang'] = lang
-    translations = load_translations(lang)
+    translations = get_translations()
     return render_template('about_us.html',
                            translations=translations)
 
 @templates_bp.route('/historical-values', methods=['GET'])
 def historical_values():
-    session.permanent = False
-    lang = request.args.get('lang')
-    if lang is None:
-        lang = session.get('lang')
-    session['lang'] = lang
-    translations = load_translations(lang)
+    translations = get_translations()
 
     tickers = requests.get(api_urls.tickers_url).json()
     ticker = request.args.get('tickers')
@@ -74,12 +72,7 @@ def historical_values():
 
 @templates_bp.route('/technical-analysis', methods=['GET'])
 def technical_analysis():
-    session.permanent = False
-    lang = request.args.get('lang')
-    if lang is None:
-        lang = session.get('lang')
-    session['lang'] = lang
-    translations = load_translations(lang)
+    translations = get_translations()
 
     tickers = requests.get(api_urls.tickers_url).json()
     ticker = request.args.get('tickers')
