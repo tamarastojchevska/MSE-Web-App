@@ -1,7 +1,7 @@
 import json
 from datetime import date, timedelta
 import requests
-from Homework4.app.api import api_urls
+from Homework4.app.service import api_urls
 from Homework4.app.frontend import templates_bp
 from flask import render_template, request, session
 

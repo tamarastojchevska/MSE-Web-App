@@ -1,7 +1,7 @@
 import requests
-from Homework4.app.api.csv.model import data_to_csv
-from Homework4.app.api.sqlite.model import sqlite_database
-from Homework4.app.api import api_urls
+from Homework4.app.service.csv.model import data_to_csv
+from Homework4.app.service.sqlite.model import sqlite_database
+from Homework4.app.service import api_urls
 
 tickers = requests.get(api_urls.tickers_url).json()
 directory = './csv_database'
