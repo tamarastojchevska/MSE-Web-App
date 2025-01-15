@@ -60,7 +60,7 @@ def historical_values():
         from_date = (TODAY - timedelta(days=30)).strftime("%Y-%m-%d")
         to_date = TODAY.strftime("%Y-%m-%d")
 
-    if from_date is not None and to_date is not None:
+    if from_date is not None and to_date is not None and from_date < to_date:
         table = requests.get(api_urls.sqlite_data_url + ticker + ' ' + from_date + ' ' + to_date).json()
 
     return render_template('historical_values.html',
@@ -72,6 +72,9 @@ def historical_values():
 
 @templates_bp.route('/technical-analysis', methods=['GET'])
 def technical_analysis():
+    message = ''
+    plot, req = None, None
+
     translations = get_translations()
 
     tickers = requests.get(api_urls.tickers_url).json()
@@ -84,48 +87,45 @@ def technical_analysis():
 
     option = request.args.get('plot_option')
 
-    message = ''
-
-    plot = None
-    if from_date == "" and to_date == "":
-        from_date = None
-        to_date = None
-        message = "Please enter valid dates."
-
-
     if from_date is not None and to_date is not None:
-        ticker_plot_url = ('http://127.0.0.1:5000/tickers/'
-                           + ticker + ' '
-                           + from_date + ' '
-                           + to_date
-                           + '/plot')
+        if from_date > to_date or from_date == "" and to_date == "":
+            message = "Please enter valid dates."
+        else:
+            ticker_plot_url = ('http://127.0.0.1:5000/tickers/'
+                               + ticker + ' '
+                               + from_date + ' '
+                               + to_date
+                               + '/plot')
 
-        match option:
-            case 'SMA':
-                plot = requests.get(ticker_plot_url + '/moving-average/simple').json()
-            case 'EMA':
-                plot = requests.get(ticker_plot_url + '/moving-average/exponential').json()
-            case 'WMA':
-                plot = requests.get(ticker_plot_url + '/moving-average/weighted').json()
-            case 'MACD':
-                plot = requests.get(ticker_plot_url + '/moving-average/convergence-divergence').json()
-            case 'CMA':
-                plot = requests.get(ticker_plot_url + '/moving-average/cumulative').json()
-            case 'ADX':
-                plot = requests.get(ticker_plot_url + '/index/average-directional-index').json()
-            case 'RSI':
-                plot = requests.get(ticker_plot_url + '/index/relative-strength-index').json()
-            case 'CCI':
-                plot = requests.get(ticker_plot_url + '/index/commodity-channel-index').json()
-            case 'MFI':
-                plot = requests.get(ticker_plot_url + '/index/money-flow-index').json()
-            case 'RIBBON MA':
-                plot = requests.get(ticker_plot_url + '/moving-average/ribbon').json()
-            case 'STOCHASTIC':
-                plot = requests.get(ticker_plot_url + '/oscillator/stochastic').json()
-    else:
-        if from_date is not None and to_date is not None:
-            message = f'No data found for date {from_date} and date {to_date} for issuer {ticker}'
+            match option:
+                case 'SMA':
+                    req = requests.get(ticker_plot_url + '/moving-average/simple')
+                case 'EMA':
+                    req = requests.get(ticker_plot_url + '/moving-average/exponential')
+                case 'WMA':
+                    req = requests.get(ticker_plot_url + '/moving-average/weighted')
+                case 'MACD':
+                    req = requests.get(ticker_plot_url + '/moving-average/convergence-divergence')
+                case 'CMA':
+                    req = requests.get(ticker_plot_url + '/moving-average/cumulative')
+                case 'ADX':
+                    req = requests.get(ticker_plot_url + '/index/average-directional-index')
+                case 'RSI':
+                    req = requests.get(ticker_plot_url + '/index/relative-strength-index')
+                case 'CCI':
+                    req = requests.get(ticker_plot_url + '/index/commodity-channel-index')
+                case 'MFI':
+                    req = requests.get(ticker_plot_url + '/index/money-flow-index')
+                case 'RIBBON MA':
+                    req = requests.get(ticker_plot_url + '/moving-average/ribbon')
+                case 'STOCHASTIC':
+                    req = requests.get(ticker_plot_url + '/oscillator/stochastic')
+
+    if  req is not None:
+        if req.status_code == 200:
+            plot = req.json()
+        elif req.status_code == 204:
+            message = f'No data found for {from_date} and {to_date}'
 
     return render_template('technical_analysis.html',
                            tickers=tickers,
