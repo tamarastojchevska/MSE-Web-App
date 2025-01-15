@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" data-bs-value="light">
 
     <!-- Header -->
 
@@ -52,47 +52,47 @@
     <main class="container flex-grow-1">
         <div class="my-5 container-middle">
             <div class="container">
-                <div class = "flex-container">
-                <form method="get" action="{{ url_for('.historical_values') }}">
-                    <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
-                        <li>
-                            <label>{{ translations['from'] }}
-                                <input class = "form-control" type="date" name="from_date" value="{{ from_date }}">
-                            </label>
-                        </li>
-                        <li>
-                            <label>{{ translations['to'] }}
-                                <input class = "form-control" type="date" name="to_date" value="{{ to_date }}">
-                            </label>
-                        </li>
-                        <li>
-                            <label>{{ translations['issuer'] }}
-                                <select name="tickers" class = "form-select" onchange="sendFilename()" id="tickers">
-                                    {% for ticker in tickers %}
-                                    <option value="{{ ticker }}">{{ ticker }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
-                        </li>
-                        <li>
-                            <label></label>
+                <div class="d-flex flex-row flex-wrap">
+                    <form method="get" action="{{ url_for('.historical_values') }}" class="w-75">
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
+                            <li>
+                                <label>{{ translations['from'] }}
+                                    <input class = "form-control" type="date" name="from_date" value="{{ from_date }}">
+                                </label>
+                            </li>
+                            <li>
+                                <label>{{ translations['to'] }}
+                                    <input class = "form-control" type="date" name="to_date" value="{{ to_date }}">
+                                </label>
+                            </li>
+                            <li>
+                                <label>{{ translations['issuer'] }}
+                                    <select name="tickers" class = "form-select" onchange="sendFilename()" id="tickers">
+                                        {% for ticker in tickers %}
+                                        <option value="{{ ticker }}">{{ ticker }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </li>
+                            <li>
+                                <label></label>
                                 <button class = "btn btn-secondary form-control" type="submit">{{ translations['submit'] }}</button>
-                        </li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </form>
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
-                        <li>
-                            <label></label>
-                                <form action="{{ url_for('csv.csv_data_download') }}" method="get">
+                            </li>
+                        </ul>
+                    </form>
+
+                    <form action="{{ url_for('csv.csv_data_download') }}" method="get" class="w-25">
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                            <li>
+                                <label>
                                     <input hidden="hidden" name="filename">
-                                    <button title = "Download all available data for selected company." class = "btn btn-success form-control">
-                                        {{ translations['download'] }}
-                                    </button>
-                                </form>
-                        </li>
-                </ul>
+                                </label>
+                                <button title = "Download all available data for selected company." class = "btn btn-success form-control">
+                                    {{ translations['download'] }}
+                                </button>
+                            </li>
+                        </ul>
+                    </form>
                 </div>
                 <div class = "p-5">
                     <div class = "table-responsive">
