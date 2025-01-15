@@ -38,4 +38,7 @@ def check_directory_empty(directory, tickers):
             path = os.path.join(directory, filename)
             if path not in files:
                 data_to_csv(directory, ticker)
+            else:
+                os.remove(path)
+                data_to_csv(directory, ticker)
 
