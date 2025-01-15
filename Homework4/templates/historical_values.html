@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body class="d-flex flex-column min-vh-100" data-bs-theme="light">
+<body class="d-flex flex-column min-vh-100">
 
     <!-- Header -->
 
@@ -52,6 +52,7 @@
     <main class="container flex-grow-1">
         <div class="my-5 container-middle">
             <div class="container">
+                <div class = "flex-container">
                 <form method="get" action="{{ url_for('.historical_values') }}">
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
                         <li>
@@ -81,6 +82,7 @@
                         <li></li>
                     </ul>
                 </form>
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
                         <li>
                             <label></label>
                                 <form action="{{ url_for('csv.csv_data_download') }}" method="get">
@@ -90,6 +92,8 @@
                                     </button>
                                 </form>
                         </li>
+                </ul>
+                </div>
                 <div class = "p-5">
                     <div class = "table-responsive">
                         <table class = "table table-striped">
@@ -152,7 +156,7 @@
                             </button>
                         </li>
                         <li>
-                            <button class="btn btn-dark"  onclick = "toggle()">
+                            <button id = "theme-toggle" class="btn btn-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-sun" viewBox="0 0 16 16">
                                     <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
                                 </svg>
@@ -166,12 +170,81 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
+        /*!
+         * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
+         * Copyright 2011-2024 The Bootstrap Authors
+         * Licensed under the Creative Commons Attribution 3.0 Unported License.
+         */
 
-        function toggle(){
-            let element = document.body;
-            element.dataset.bsTheme = element.dataset.bsTheme === "light" ? "dark" : "light"; // swaps theme
-        }
+        (() => {
+            'use strict'
 
+            const getStoredTheme = () => localStorage.getItem('theme')
+            const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+            const getPreferredTheme = () => {
+                const storedTheme = getStoredTheme()
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = theme => {
+                if (theme === 'auto') {
+                    document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
+                } else {
+                    document.documentElement.setAttribute('data-bs-theme', theme)
+                }
+            }
+
+            setTheme(getPreferredTheme())
+
+            const showActiveTheme = (theme, focus = false) => {
+                const themeSwitcher = document.querySelector('#bd-theme')
+
+                if (!themeSwitcher) {
+                    return
+                }
+
+                const themeSwitcherText = document.querySelector('#bd-theme-text')
+                const activeThemeIcon = document.querySelector('.theme-icon-active use')
+                const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+
+                document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                    element.classList.remove('active')
+                    element.setAttribute('aria-pressed', 'false')
+                })
+
+                btnToActive.classList.add('active')
+                btnToActive.setAttribute('aria-pressed', 'true')
+                activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+                const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
+                themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
+
+                if (focus) {
+                    themeSwitcher.focus()
+                }
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                const storedTheme = getStoredTheme()
+                if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            document.querySelector('#theme-toggle').addEventListener('click', () => {
+                const currentTheme = getStoredTheme();
+                const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+                setStoredTheme(newTheme);
+                setTheme(newTheme);
+                showActiveTheme(newTheme, true);
+
+            });
+        })()
     </script>
     <script>
     function sendFilename(){
