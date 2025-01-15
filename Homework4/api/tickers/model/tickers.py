@@ -1,14 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
+from Homework4.api import api_urls
 
-DEF_URL = 'https://www.mse.mk/en/stats/symbolhistory/ADIN'
 
 def check_number_in_string(s):  # for a given string it checks if it contains a number
     return any(i.isdigit() for i in s)
 
 def scrape_tickers():
     # get http request
-    response = requests.get(DEF_URL)
+    response = requests.get(api_urls.DEF_URL)
     raw_html = response.text
 
     # parse html from request

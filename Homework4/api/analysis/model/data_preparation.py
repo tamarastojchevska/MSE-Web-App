@@ -1,7 +1,8 @@
 import pandas as pd
 import requests
 
-sqlite_data_dates_url = 'http://127.0.0.1:5000/tickers/sqlite/'
+from Homework4.api import api_urls
+
 
 def parse_string_to_float(num):
     if num == ',':
@@ -11,7 +12,7 @@ def parse_string_to_float(num):
 
 
 def get_data(ticker, from_date, to_date):
-    url = sqlite_data_dates_url + ticker + ' ' + from_date + ' ' + to_date
+    url = api_urls.sqlite_data_url + ticker + ' ' + from_date + ' ' + to_date
     data = requests.get(url).json()
     data = pd.DataFrame(data=data,
                         columns=['Date',

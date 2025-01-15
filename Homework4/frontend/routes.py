@@ -2,12 +2,13 @@ import json
 from datetime import date, timedelta
 
 import requests
+
+from Homework4.api import api_urls
 from Homework4.frontend import templates_bp
 from flask import render_template, request, session
 
 TODAY = date.today()
-tickers_api_url = 'http://127.0.0.1:5000/tickers'
-sqlite_ticker_data_url = 'http://127.0.0.1:5000/tickers/sqlite/'
+
 
 def load_translations(lang):
     path = './templates/translations/'+lang+'.json'
@@ -47,7 +48,7 @@ def historical_values():
     session['lang'] = lang
     translations = load_translations(lang)
 
-    tickers = requests.get(tickers_api_url).json()
+    tickers = requests.get(api_urls.tickers_url).json()
     ticker = request.args.get('tickers')
     if ticker is None:
         ticker = tickers[0]
@@ -62,7 +63,7 @@ def historical_values():
         to_date = TODAY.strftime("%Y-%m-%d")
 
     if from_date is not None and to_date is not None:
-        table = requests.get(sqlite_ticker_data_url + ticker + ' ' + from_date + ' ' + to_date).json()
+        table = requests.get(api_urls.sqlite_data_url + ticker + ' ' + from_date + ' ' + to_date).json()
 
     return render_template('historical_values.html',
                            tickers=tickers,
@@ -80,7 +81,7 @@ def technical_analysis():
     session['lang'] = lang
     translations = load_translations(lang)
 
-    tickers = requests.get(tickers_api_url).json()
+    tickers = requests.get(api_urls.tickers_url).json()
     ticker = request.args.get('tickers')
     if ticker is None:
         ticker = tickers[0]

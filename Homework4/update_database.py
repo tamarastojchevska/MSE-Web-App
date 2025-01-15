@@ -1,10 +1,10 @@
 import requests
 from Homework4.api.csv.model import data_to_csv
 from Homework4.api.sqlite.model import sqlite_database
+from Homework4.api import api_urls
 
 
-tickers_url = 'http://127.0.0.1:5000/tickers'
-tickers = requests.get(tickers_url).json()
+tickers = requests.get(api_urls.tickers_url).json()
 
 def update_sqlite_database():
     for ticker in tickers:

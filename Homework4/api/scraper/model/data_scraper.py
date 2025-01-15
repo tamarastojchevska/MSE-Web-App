@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 from datetime import date, timedelta
 from datetime import datetime
 
+from Homework4.api import api_urls
 
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
-DEF_URL = 'https://www.mse.mk/en/stats/symbolhistory/ADIN'
+
 
 TODAY = date.today()
 TO_DATE = TODAY.strftime("%Y-%m-%d")
@@ -23,7 +24,7 @@ def convert_price_float(price):
 
 # send a http request with given parameters
 def get_post_request(code, from_date, to_date):
-    url = DEF_URL[:-4] + code
+    url = api_urls.DEF_URL[:-4] + code
     header = {
         'content-type': CONTENT_TYPE
     }

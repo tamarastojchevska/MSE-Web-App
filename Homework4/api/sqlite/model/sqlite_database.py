@@ -4,11 +4,11 @@ import sqlite3
 
 import requests
 
-
+from Homework4.api import api_urls
 
 TODAY = date.today().strftime('%Y-%m-%d')
 DB_PATH = 'database.db'
-data_scraper_url = 'http://127.0.0.1:5000/tickers/scraper/'
+
 
 
 def db_connection():
@@ -51,7 +51,7 @@ def update_ticker_data(ticker):
         "%Y-%m-%d") - timedelta(days=1)
     last_date = last_date.strftime('%Y-%m-%d')
     if last_date != TODAY:
-        data = requests.get(data_scraper_url + ticker + ' ' + last_date + ' ' + TODAY).json()
+        data = requests.get(api_urls.data_scraper_url + ticker + ' ' + last_date + ' ' + TODAY).json()
         df = pd.DataFrame.from_dict(data, orient='index')
         for index, row in df.iterrows():
             try:
@@ -83,7 +83,7 @@ def add_ticker_data(ticker):
     except sqlite3.OperationalError as e:
         print('Error while creating SQLite Table: ', e)
 
-    data = requests.get(data_scraper_url + ticker).json()
+    data = requests.get(api_urls.data_scraper_url + ticker).json()
     df = pd.DataFrame.from_dict(data, orient='index')
     df = df.rename_axis('Date').reset_index()
     df.to_sql(ticker, connection, if_exists='append', index=False)

@@ -4,14 +4,13 @@ import os
 import pandas as pd
 import requests
 
-sqlite_data_url = 'http://127.0.0.1:5000/tickers/sqlite/'
-
+from Homework4.api import api_urls
 
 
 def data_to_csv(directory, ticker):
     filename = ticker + '.csv'
     path = directory + '/' + filename
-    data = requests.get(sqlite_data_url + ticker).json()
+    data = requests.get(api_urls.sqlite_data_url + ticker).json()
     df = pd.DataFrame(data, columns=['Date', 'Price', 'Min', 'Max', 'AvgPrice', 'chg', 'Volume', 'TurnoverBEST', 'TurnoverTotal'])
     df.to_csv(path, index=False)
 
