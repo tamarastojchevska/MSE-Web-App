@@ -12,3 +12,5 @@ def update_sqlite_database():
 
 def update_csv_database(directory):
     data_to_csv.check_directory_exist(directory, tickers)
+
+update_csv_database('./csv_database')
