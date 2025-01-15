@@ -1,6 +1,6 @@
 from flask import jsonify
-from Homework4.api.analysis import plot_bp
-from Homework4.api.analysis.model import data_preparation, calculations, plots
+from Homework4.app.api.analysis import plot_bp
+from Homework4.app.api.analysis.model import plots, calculations, data_preparation
 
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'

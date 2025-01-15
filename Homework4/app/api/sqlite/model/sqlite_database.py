@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 import pandas as pd
 import sqlite3
 import requests
-from Homework4.api import api_urls
+from Homework4.app.api import api_urls
 
 TODAY = date.today().strftime('%Y-%m-%d')
 DB_PATH = 'database.db'

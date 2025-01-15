@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from Homework4.api import api_urls
+from Homework4.app.api import api_urls
 
 
 def check_number_in_string(s):

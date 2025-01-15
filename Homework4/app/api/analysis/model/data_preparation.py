@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-from Homework4.api import api_urls
+from Homework4.app.api import api_urls
 
 
 def parse_string_to_float(num):
