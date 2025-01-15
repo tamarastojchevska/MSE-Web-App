@@ -53,14 +53,14 @@ def ribbon_moving_average_plot(ticker, from_date, to_date):
     ema_medium = calculations.simple_moving_average(data['Price'], 7)
     cma = calculations.cumulative_moving_average(data['Price'])
     macd = calculations.moving_average_convergence_divergence(data['Price'])
-    return jsonify(plots.ribbon_moving_averages(data['Price'], sma_medium, ema_medium, cma, macd))
+    return jsonify(plots.ribbon_moving_averages(data, sma_medium, ema_medium, cma, macd))
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
                '/plot/index/relative-strength-index')
 def relative_strength_index_plot(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
     rsi = calculations.relative_strength_index(data['Price'])
-    return jsonify(plots.relative_strength_index(data['Price'], rsi))
+    return jsonify(plots.relative_strength_index(data, rsi))
 
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
@@ -68,7 +68,7 @@ def relative_strength_index_plot(ticker, from_date, to_date):
 def average_directional_index_plot(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
     adx = calculations.average_directional_index(data['Max'], data['Min'], data['Price'])
-    return jsonify(plots.average_directional_index(data['Price'], adx))
+    return jsonify(plots.average_directional_index(data, adx))
 
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
@@ -76,14 +76,14 @@ def average_directional_index_plot(ticker, from_date, to_date):
 def commodity_channel_index_plot(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
     cci = calculations.commodity_channel_index(data['Max'], data['Min'], data['Price'])
-    return jsonify(plots.commodity_channel_index(data['Price'], cci))
+    return jsonify(plots.commodity_channel_index(data, cci))
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
                '/plot/index/money-flow-index')
 def money_flow_index_plot(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
-    mfi = calculations.money_flow_index(data['Max'], data['Min'], data['Price'], data['Volume'])
-    signals = calculations.trading_signals_money_flow_index(data['Max'], data['Min'], data['Price'], mfi)
+    mfi = calculations.money_flow_index(data)
+    signals = calculations.trading_signals_money_flow_index(data, mfi, )
     return jsonify(plots.money_flow_index(data, mfi, signals))
 
 @plot_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'

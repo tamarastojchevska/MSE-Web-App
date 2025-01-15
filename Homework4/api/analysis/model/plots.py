@@ -136,7 +136,7 @@ def relative_strength_index(data, rsi):
 
     fig.add_trace(go.Line(
         x=data.index,
-        y=data,
+        y=data['Price'],
         name='Price',
     ), row=1, col=1)
 

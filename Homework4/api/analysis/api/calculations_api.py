@@ -55,7 +55,7 @@ def commodity_channel_index(ticker, from_date, to_date):
                    '/technical-analysis/index/money-flow-index')
 def money_flow_index(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
-    return jsonify(calculations.money_flow_index(data['Max'], data['Min'], data['Price'], data['Volume']).to_json())
+    return jsonify(calculations.money_flow_index(data).to_json())
 
 @calculations_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
                    '/technical-analysis/oscillator/stochastic-oscillator')
@@ -67,8 +67,8 @@ def stochastic_oscillator(ticker, from_date, to_date):
                    '/technical-analysis/index/money-flow-index/signals')
 def trading_signals_money_flow_index(ticker, from_date, to_date):
     data = data_preparation.get_data(ticker, from_date, to_date)
-    mfi = calculations.money_flow_index(data['Max'], data['Min'], data['Price'], data['Volume'])
-    return jsonify(calculations.trading_signals_money_flow_index(mfi, data['Price'], 80, 20))
+    mfi = calculations.money_flow_index(data)
+    return jsonify(calculations.trading_signals_money_flow_index(data, mfi, 80, 20))
 
 @calculations_bp.route('/tickers/<string:ticker> <string:from_date> <string:to_date>'
                    '/technical-analysis/moving-average/simple/signals')

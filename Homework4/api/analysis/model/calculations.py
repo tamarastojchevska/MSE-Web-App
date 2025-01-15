@@ -12,7 +12,9 @@ def get_trading_signals(val1, val2):
         return 0
 
 
-def trading_signals_money_flow_index(high, low, close, mfi):
+def trading_signals_money_flow_index(data, mfi, high=80, low=20):
+    close = data['Price']
+
     buy_signal = []
     sell_signal = []
 
@@ -21,7 +23,7 @@ def trading_signals_money_flow_index(high, low, close, mfi):
             buy_signal.append(np.nan)
             sell_signal.append(close[i])
 
-        elif mfi < low:
+        elif mfi[i] < low:
             buy_signal.append(close[i])
             sell_signal.append(np.nan)
 
@@ -118,9 +120,9 @@ def moving_average_convergence_divergence(price):
     return ema1 - ema30
 
 
-def money_flow_index(high, low, close, volume):
-    typical_price = (high + low + close) / 3
-    money_flow = typical_price * volume
+def money_flow_index(data):
+    typical_price = (data['Price'] + data['Max'] + data['Min']) / 3
+    money_flow = typical_price * data['Volume']
 
     period = 14
     positive_flow = []
