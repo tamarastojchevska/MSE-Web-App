@@ -247,12 +247,28 @@
         })()
     </script>
     <script>
-    function sendFilename(){
-        var select = document.getElementById('tickers')
-        var filename = select.options[select.selectedIndex].value.concat('.csv')
-        var temp = document.getElementsByName('filename')[0]
-        temp.value = filename
-    }
+        const companySelect = document.getElementById('tickers');
+
+        // restoring the company selected when it reloads
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedValue = localStorage.getItem('selectedCompany');
+            if (savedValue) {
+                companySelect.value = savedValue; // setting the selected company
+            }
+        });
+
+        // saving the new selected company when the dropdown changes
+        companySelect.addEventListener('change', () => {
+            localStorage.setItem('selectedCompany', companySelect.value);
+        });
+    </script>
+    <script>
+        function sendFilename(){
+            var select = document.getElementById('tickers')
+            var filename = select.options[select.selectedIndex].value.concat('.csv')
+            var temp = document.getElementsByName('filename')[0]
+            temp.value = filename
+        }
     </script>
 </body>
 </html>
