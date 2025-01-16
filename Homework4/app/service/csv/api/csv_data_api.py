@@ -6,9 +6,6 @@ from Homework4.app.service.csv import csv_data_bp
 DOWNLOAD_FOLDER = './csv_database'
 
 
-@csv_data_bp.route('/csv/download', methods = ['GET'])
-def csv_data_download():
-    filename = request.args.get('filename')
-    if filename == "":
-       filename = os.listdir(DOWNLOAD_FOLDER)[0]
+@csv_data_bp.route('/csv/download/<path:filename>', methods = ['GET'])
+def csv_data_download(filename):
     return send_from_directory(DOWNLOAD_FOLDER, filename, as_attachment=True)

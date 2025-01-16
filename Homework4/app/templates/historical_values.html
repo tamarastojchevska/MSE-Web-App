@@ -27,7 +27,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url_for('.historical_values') }}" class="nav-link text-secondary">
+                            <a href="{{ url_for('.historical_values') }}" class="nav-link text-success">
                                 {{ translations['histVal'] }}
                             </a>
                         </li>
@@ -53,7 +53,7 @@
         <div class="my-5 container-middle">
             <div class="container">
                 <div class="d-flex flex-row flex-wrap">
-                    <form method="get" action="{{ url_for('.historical_values') }}" class="w-75">
+                    <form method="get" action="{{ url_for('.historical_values') }}" class="w-100">
                         <ul class="nav col-12 col-lg-auto my-2 justify-content-around my-md-0 text-small">
                             <li>
                                 <label>{{ translations['from'] }}
@@ -78,17 +78,10 @@
                                 <label></label>
                                 <button class = "btn btn-secondary form-control" type="submit">{{ translations['submit'] }}</button>
                             </li>
-                        </ul>
-                    </form>
-
-                    <form action="{{ url_for('csv.csv_data_download') }}" method="get" class="w-25">
-                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                             <li>
-                                <label>
-                                    <input hidden="hidden" name="filename">
-                                </label>
-                                <button title = "Download all available data for selected company." class = "btn btn-success form-control">
-                                    {{ translations['download'] }}
+                                <label></label>
+                                <button class = "btn btn-success form-control">
+                                    <a href="{{ url_for('csv.csv_data_download', filename=filename) }}" class="bi text-white text-decoration-none">{{ translations['download'] }}</a>
                                 </button>
                             </li>
                         </ul>
@@ -245,30 +238,6 @@
 
             });
         })()
-    </script>
-    <script>
-        const companySelect = document.getElementById('tickers');
-
-        // restoring the company selected when it reloads
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedValue = localStorage.getItem('selectedCompany');
-            if (savedValue) {
-                companySelect.value = savedValue; // setting the selected company
-            }
-        });
-
-        // saving the new selected company when the dropdown changes
-        companySelect.addEventListener('change', () => {
-            localStorage.setItem('selectedCompany', companySelect.value);
-        });
-    </script>
-    <script>
-        function sendFilename(){
-            var select = document.getElementById('tickers')
-            var filename = select.options[select.selectedIndex].value.concat('.csv')
-            var temp = document.getElementsByName('filename')[0]
-            temp.value = filename
-        }
     </script>
 </body>
 </html>

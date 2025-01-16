@@ -63,11 +63,14 @@ def historical_values():
     if from_date is not None and to_date is not None and from_date < to_date:
         table = requests.get(api_urls.sqlite_data_url + ticker + ' ' + from_date + ' ' + to_date).json()
 
+    filename = ticker + '.csv'
+
     return render_template('historical_values.html',
                            tickers=tickers,
                            table=table,
                            from_date=from_date,
                            to_date=to_date,
+                           filename=filename,
                            translations=translations)
 
 @templates_bp.route('/technical-analysis', methods=['GET'])
@@ -125,7 +128,7 @@ def technical_analysis():
         if req.status_code == 200:
             plot = req.json()
         elif req.status_code == 204:
-            message = f'No data found for {from_date} and {to_date}'
+            message = f'No data available for dates between {from_date} and {to_date}'
 
     return render_template('technical_analysis.html',
                            tickers=tickers,
