@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from Homework4.app.service import api_urls
+from Homework4.scraper_app.model import scraper_url
 
 
 def check_number_in_string(s):
@@ -8,7 +8,7 @@ def check_number_in_string(s):
 
 def scrape_tickers():
     # get http request
-    response = requests.get(api_urls.DEF_URL)
+    response = requests.get(scraper_url.DEF_URL)
     raw_html = response.text
 
     # parse html from request

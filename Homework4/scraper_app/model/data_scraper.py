@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 from datetime import datetime
-from Homework4.app.service import api_urls
+from Homework4.scraper_app.model import scraper_url
 
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
 TODAY = date.today()
@@ -21,7 +21,7 @@ def convert_price_float(price):
 
 # send a http request with given parameters
 def get_post_request(code, from_date, to_date):
-    url = api_urls.DEF_URL[:-4] + code
+    url = scraper_url.DEF_URL[:-4] + code
     header = {
         'content-type': CONTENT_TYPE
     }
