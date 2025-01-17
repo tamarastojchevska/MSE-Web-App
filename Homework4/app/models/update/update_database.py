@@ -15,5 +15,8 @@ def update_sqlite_database():
 def update_csv_database():
     data_to_csv.check_directory_exist(directory, db_path, tickers)
 
-update_sqlite_database()
-update_csv_database()
+schedule.every().day.at("00:00").do(update_sqlite_database).do(update_csv_database)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
