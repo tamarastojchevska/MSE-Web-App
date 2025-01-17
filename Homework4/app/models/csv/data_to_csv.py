@@ -1,35 +1,33 @@
 import glob
 import os
-
 import pandas as pd
-import requests
-
-from Homework4.app.service import api_urls
+from Homework4.app.models.sqlite.sqlite_database import get_sqlite_ticker_data
 
 
-def data_to_csv(directory, ticker):
+
+def data_to_csv(directory, db_path, ticker):
     filename = ticker + '.csv'
     path = directory + '/' + filename
-    data = requests.get(api_urls.sqlite_data_url + ticker).json()
-    df = pd.DataFrame(data, columns=['Date', 'Price', 'Min', 'Max', 'AvgPrice', 'chg', 'Volume', 'TurnoverBEST', 'TurnoverTotal'])
+    data = get_sqlite_ticker_data(db_path, ticker)
+    df = pd.DataFrame(data, columns=['Date', 'Price', 'Max', 'Min', 'AvgPrice', 'chg', 'Volume', 'TurnoverBEST', 'TurnoverTotal'])
     df.to_csv(path, index=False)
 
 
-def check_directory_exist(directory, tickers):
+def check_directory_exist(directory, db_path, tickers):
     if os.path.isdir(directory):
         # given directory exists -> check if it's empty
-        check_directory_empty(directory, tickers)
+        check_directory_empty(directory, db_path, tickers)
     else:
         # given directory doesn't exist -> create directory and check if it's empty
         os.mkdir(directory)
-        check_directory_empty(directory, tickers)
+        check_directory_empty(directory, db_path, tickers)
 
 
-def check_directory_empty(directory, tickers):
+def check_directory_empty(directory, db_path, tickers):
     if not os.listdir(directory):
         # directory is empty -> create csv for every code
         for ticker in tickers:
-            data_to_csv(directory, ticker)
+            data_to_csv(directory, db_path, ticker)
     else:
         # directory is not empty -> check if code is missing and fill csv with data
         files = glob.glob(directory + "/*" + '.csv')
@@ -37,8 +35,8 @@ def check_directory_empty(directory, tickers):
             filename = ticker + '.csv'
             path = os.path.join(directory, filename)
             if path not in files:
-                data_to_csv(directory, ticker)
+                data_to_csv(directory, db_path, ticker)
             else:
                 os.remove(path)
-                data_to_csv(directory, ticker)
+                data_to_csv(directory, db_path, ticker)
 

@@ -1,6 +1,4 @@
-import pandas as pd
-import requests
-from Homework4.app.service import api_urls
+from Homework4.app.models.sqlite.sqlite_database import *
 
 
 def parse_string_to_float(num):
@@ -10,9 +8,8 @@ def parse_string_to_float(num):
         return float(num.replace('.', '').replace(',', '.'))
 
 
-def get_data(ticker, from_date, to_date):
-    url = api_urls.sqlite_data_url + ticker + ' ' + from_date + ' ' + to_date
-    data = requests.get(url).json()
+def get_data(db_path, ticker, from_date, to_date):
+    data = get_sqlite_ticker_data(db_path, ticker, from_date, to_date)
     data = pd.DataFrame(data=data,
                         columns=['Date',
                                  'Price',
