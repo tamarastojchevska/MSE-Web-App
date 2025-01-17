@@ -1,18 +1,6 @@
 from flask import Flask
-
-from Homework4.app.service.scraper.api import data_scraper_api
-from Homework4.app.frontend import routes as templates_api
-from Homework4.app.service.sqlite.api import sqlite_api
-from Homework4.app.service.analysis.api import plots_api
-from Homework4.app.service.tickers.api import tickers_api
-from Homework4.app.service.csv.api import csv_data_api
+from Homework4.app.frontend.routes import templates_bp
 
 app = Flask(__name__)
 app.secret_key = 'SECRET_KEY'
-
-app.register_blueprint(data_scraper_api.data_bp)
-app.register_blueprint(templates_api.templates_bp)
-app.register_blueprint(sqlite_api.sqlite_bp)
-app.register_blueprint(plots_api.plot_bp)
-app.register_blueprint(tickers_api.tickers_bp)
-app.register_blueprint(csv_data_api.csv_data_bp)
+app.register_blueprint(templates_bp)
