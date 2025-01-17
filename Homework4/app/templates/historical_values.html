@@ -67,7 +67,7 @@
                             </li>
                             <li>
                                 <label>{{ translations['issuer'] }}
-                                    <select name="tickers" class = "form-select" onchange="sendFilename()" id="tickers">
+                                    <select name="tickers" class = "form-select">
                                         {% for ticker in tickers %}
                                         <option value="{{ ticker }}">{{ ticker }}</option>
                                         {% endfor %}
@@ -81,7 +81,9 @@
                             <li>
                                 <label></label>
                                 <button class = "btn btn-success form-control">
-                                    <a href="{{ url_for('csv.csv_data_download', filename=filename) }}" class="bi text-white text-decoration-none">{{ translations['download'] }}</a>
+                                    <a href="{{ url_for('.csv_data_download', filename=filename) }}" class="bi text-white text-decoration-none">
+                                        {{ translations['download'] }}
+                                    </a>
                                 </button>
                             </li>
                         </ul>

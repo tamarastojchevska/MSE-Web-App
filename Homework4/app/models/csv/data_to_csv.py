@@ -1,7 +1,6 @@
 import glob
 import os
-import pandas as pd
-from Homework4.app.models.sqlite.sqlite_database import get_sqlite_ticker_data
+from Homework4.app.models.sqlite.sqlite_database import *
 
 
 
