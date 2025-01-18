@@ -6,12 +6,12 @@ from . import templates_bp
 from models.analysis.model.data_preparation import get_data
 from models.sqlite.sqlite_database import get_sqlite_ticker_data
 from models.analysis.chart_plots import *
-
+from models.sqlite.scraper_urls import TICKER_URL
 
 TODAY = date.today()
 DOWNLOAD_FOLDER = './csv_database'
 db_path = 'database.db'
-TICKER_URL = 'http://scraper:5001/scraper/tickers'
+
 
 def load_translations_file(lang):
     path = './templates/translations/'+lang+'.json'
@@ -72,7 +72,7 @@ def historical_values():
     if from_date is not None and to_date is not None and from_date < to_date:
         table = get_sqlite_ticker_data(db_path, ticker, from_date, to_date)
 
-    filename = ticker + '.csv_data'
+    filename = ticker + '.csv'
 
     return render_template('historical_values.html',
                            tickers=tickers,

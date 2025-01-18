@@ -1,9 +1,9 @@
 from csv_data.data_to_csv import *
 from sqlite.sqlite_database import *
+from sqlite.scraper_urls import TICKER_URL
 import schedule
 import time
 
-TICKER_URL = 'http://scraper:5001/scraper/tickers'
 
 tickers = requests.get(TICKER_URL).json()
 directory = '../../csv_database'

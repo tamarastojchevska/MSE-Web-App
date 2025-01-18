@@ -2,9 +2,10 @@ from datetime import date, datetime, timedelta
 import pandas as pd
 import sqlite3
 import requests
+from . import scraper_urls
 
 TODAY = date.today().strftime('%Y-%m-%d')
-SCRAPER_URL = 'http://scraper:5001/scraper/'
+
 
 def db_connection(db_path):
     conn = None
@@ -46,7 +47,7 @@ def update_ticker_data(db_path, ticker):
         "%Y-%m-%d") - timedelta(days=1)
     last_date = last_date.strftime('%Y-%m-%d')
     if last_date != TODAY:
-        data = requests.get(SCRAPER_URL + '/' + ticker + ' ' + last_date + '' + TODAY).json()
+        data = requests.get(scraper_urls.SCRAPER_URL + '/' + ticker + ' ' + last_date + '' + TODAY).json()
         df = pd.DataFrame.from_dict(data, orient='index')
         for index, row in df.iterrows():
             try:
@@ -78,7 +79,7 @@ def add_ticker_data(db_path, ticker):
     except sqlite3.OperationalError as e:
         print('Error while creating SQLite Table: ', e)
 
-    data = requests.get(SCRAPER_URL + '/' + ticker).json()
+    data = requests.get(scraper_urls.SCRAPER_URL + '/' + ticker).json()
     df = pd.DataFrame.from_dict(data, orient='index')
     df = df.rename_axis('Date').reset_index()
     df.to_sql(ticker, connection, if_exists='append', index=False)
