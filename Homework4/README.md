@@ -6,7 +6,7 @@ This project offers a microservice that is responsible for scraping the issuers 
 ## Design Patterns
 
 - **Singleton** Pattern: Modules in python are essentially Singleton instances of an internal module class and all their global parameters and/or functions are attributes on the module instance. For example the [scraper urls](app/models/sqlite/scraper_urls.py). Wherever this module is imported it acts like a Singleton.
-- **MVC** Pattern: This application has a similar structure to the Model-View-Controller Design Pattern; it has the [Models](app/models), the View in this case are the [templates](app/templates), and the Controller are the [routes](app/frontend/routes.py) that access the templates and the models.
+- **MVC** Pattern: This application has a similar structure to the Model-View-Controller Design Pattern; it has the [Models](app/models), the View in this case are the [templates](app/templates), and the Controller are the [routes](app/frontend/routes.py) that access the templates and the models. The microservice also follows this pattern. It has a [Model](scraper_app/model), a ["Controller"](scraper_app/api), but it lacks the View because it does not need it since it is a microservice and not an app.
 
 
 ## Docker Containerization
