@@ -9,7 +9,7 @@ This project is a homework assignment for the subject 'Software Design and Archi
 - **Flask** - The main application is built on top of this technology. It uses HTTP requests and responses to establish communication between the browser and the application, it renders the HTMLs and handles the user inputs.
 - **SQLite** - It is used to establish a communication between the Flask application and the database. It is also used to filter and return data from the given user inputs.
 - **Plotly** - For the display of the technical analysis performed on the historical data, the plotting library Plotly is used. It uses charts (plots) to showcase the correlation between the historical data and the different indicators, such as Moving Averages and Oscillators.
-
+- **Docker** - It is used for containerization of the app and running it locally without the use of an IDE.
 
 ## How to run the app
 ### Homework 1
@@ -18,7 +18,8 @@ To run this homework successfully, only the [scraper](Homework1/scraper.py) need
 Because this homework uses parts of the previous homework (Homework 1), it is necessary to download both folders, [Homework1](Homework1) and [Homework2](Homework2). Firstly, to run the application, the [app.py](Homework2/tech_prototype/app.py) script needs to be executed and then the URL http://127.0.0.1:5000 to be entered in the browser.
 ### Homework 3
 This homework can be executed independently from the previous homeworks. To run the application, the [app.py](app.py) script needs to be executed first and then the url http://127.0.0.1:5000 to be entered in the browser.
-
+### Homework 4
+This homework requiers a Docker Engine installed on the machine. To run the application follow the steps [here](https://github.com/tamarastojchevska/MSE-Web-App/tree/master/Homework4#how-to-build-the-images-and-run-the-app-locally).
 
 # Team
 Tamara Stojchevska (221551) 
