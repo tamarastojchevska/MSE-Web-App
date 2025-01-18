@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 from datetime import datetime
-from Homework4.scraper_app.model import scraper_url
+from model import scraper_url
 
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
 TODAY = date.today()

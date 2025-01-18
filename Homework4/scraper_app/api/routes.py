@@ -1,7 +1,11 @@
 from flask import jsonify
-from Homework4.scraper_app import data_scraper_app
-from Homework4.scraper_app.model import data_scraper
+from __init__ import data_scraper_app
+from model import data_scraper
+from model import tickers
 
+@data_scraper_app.route('/scraper/tickers', methods=['GET'])
+def get_tickers():
+    return jsonify(tickers.scrape_tickers())
 
 @data_scraper_app.route('/scraper/<string:ticker>', methods=['GET'])
 def get_scraper_ticker_data(ticker):

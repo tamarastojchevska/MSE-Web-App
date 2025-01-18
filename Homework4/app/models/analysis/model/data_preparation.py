@@ -1,4 +1,4 @@
-from Homework4.app.models.sqlite.sqlite_database import *
+from models.sqlite.sqlite_database import *
 
 
 def parse_string_to_float(num):

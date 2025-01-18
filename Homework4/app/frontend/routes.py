@@ -1,15 +1,17 @@
 import json
 from datetime import date, timedelta
+import requests
 from flask import render_template, request, session, send_from_directory
-from Homework4.app.frontend import templates_bp
-from Homework4.app.models.sqlite.sqlite_database import get_sqlite_ticker_data
-from Homework4.app.models.analysis.chart_plots import *
+from . import templates_bp
+from models.analysis.model.data_preparation import get_data
+from models.sqlite.sqlite_database import get_sqlite_ticker_data
+from models.analysis.chart_plots import *
 
 
 TODAY = date.today()
 DOWNLOAD_FOLDER = './csv_database'
 db_path = 'database.db'
-
+TICKER_URL = 'http://scraper:5001/scraper/tickers'
 
 def load_translations_file(lang):
     path = './templates/translations/'+lang+'.json'
@@ -53,7 +55,7 @@ def csv_data_download(filename):
 def historical_values():
     translations = get_translations()
 
-    tickers = scrape_tickers()
+    tickers = requests.get(TICKER_URL).json()
     ticker = request.args.get('tickers')
     if ticker is None:
         ticker = tickers[0]
@@ -70,7 +72,7 @@ def historical_values():
     if from_date is not None and to_date is not None and from_date < to_date:
         table = get_sqlite_ticker_data(db_path, ticker, from_date, to_date)
 
-    filename = ticker + '.csv'
+    filename = ticker + '.csv_data'
 
     return render_template('historical_values.html',
                            tickers=tickers,
@@ -87,7 +89,7 @@ def technical_analysis():
 
     translations = get_translations()
 
-    tickers = scrape_tickers()
+    tickers = requests.get(TICKER_URL).json()
     ticker = request.args.get('tickers')
     if ticker is None:
         ticker = tickers[0]
@@ -101,7 +103,7 @@ def technical_analysis():
         if from_date > to_date or from_date == "" and to_date == "":
             message = "Please enter valid dates."
         else:
-            data = data_preparation.get_data(db_path, ticker, from_date, to_date)
+            data = get_data(db_path, ticker, from_date, to_date)
             if data.empty:
                 message = f'No data available for dates between {from_date} and {to_date}'
             else:

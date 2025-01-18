@@ -1,4 +1,4 @@
-from Homework4.app.models.analysis.model import plots, calculations
+from models.analysis.model import plots, calculations
 
 
 def simple_moving_average_plot(data):

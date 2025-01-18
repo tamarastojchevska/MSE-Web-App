@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from Homework4.scraper_app.model import scraper_url
+from model import scraper_url
 
 
 def check_number_in_string(s):
