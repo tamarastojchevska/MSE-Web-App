@@ -20,5 +20,5 @@ This project has multiple Dockerfiles that are then composed in a [Docker Compos
 
 [path/to/docker-compose]> docker-compose up
 ```
-After the images have been started, the application can be accessed through http://localhost:5000/, and the microservice can be accessed through http://localhost:5001/scraper/tickers to get the issuer codes, or http://localhost:5001/scraper/[issuer-code] 
-to access the data for the specified issuer.
+After the images have been started, the application can be accessed through http://localhost:5000/, and the microservice can be accessed through http://localhost:5001/scraper/tickers to get the issuer codes, http://localhost:5001/scraper/{issuer-code}
+to access all the data for the specified issuer, or http://localhost:5001/scraper/{issuer-code}{yyyy-mm-dd}{yyyy-mm-dd} to access the data within a specific time frame (from date, to date) for the given issuer.
