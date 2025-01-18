@@ -1,25 +1,19 @@
 version: "3"
 services:
   scraper:
-    build:
-      context: ./scraper_app
-      dockerfile: Dockerfile
+    image: scraper-app:final
     ports:
-      - "5001:5001"
+      - "5001:5001"           # main app uses default port
 
   app:
     depends_on:
       - scraper
-    build:
-      context: ./app
-      dockerfile: Dockerfile
+    image: app:final
     ports:
-      - "5000:5000"
+      - "5000:5000"           # default flask port
 
   update:
     depends_on:
       - scraper
       - app
-    build:
-      context: ./app/models
-      dockerfile: Dockerfile
+    image: update:final
