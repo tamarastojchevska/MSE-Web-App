@@ -38,7 +38,7 @@ The application and microservice are hosted on Azure.
       https://mkse-scraper.azurewebsites.net/scraper/tickers
   - Histroical data for issuer in JSON: <br />
       `https://mkse-scraper.azurewebsites.net/scraper/{issuer-code}`
-  - Historical data for issuer for a given time frame (from - to ): <br />
+  - Historical data for issuer for a given time frame (from - to) dates: <br />
       `https://mkse-scraper.azurewebsites.net/scraper/{issuer-code} {yyyy-mm-dd} {yyyy-mm-dd}`
 
 <sub>Note: replace the parameters in the curly brackets {} with valid values in the links<sub>
