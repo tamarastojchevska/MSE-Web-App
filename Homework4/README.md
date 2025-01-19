@@ -26,7 +26,7 @@ The microservice can be accessed through http://localhost:5001/scraper/tickers t
 
 `http://localhost:5001/scraper/{issuer-code}` to access all the data for the specified issuer, 
 
-or `http://localhost:5001/scraper/{issuer-code} {yyyy-mm-dd} {yyyy-mm-dd}` to access the data within a specific time frame (from date, to date) for the given issuer.
+or `http://localhost:5001/scraper/{issuer-code} {yyyy-mm-dd} {yyyy-mm-dd}` to access the data within a specific time frame (from - to dates) for the given issuer.
 
 ## Hosting
 The application and microservice are hosted on Azure.
@@ -38,7 +38,7 @@ The application and microservice are hosted on Azure.
       https://mkse-scraper.azurewebsites.net/scraper/tickers
   - Histroical data for issuer in JSON: <br />
       `https://mkse-scraper.azurewebsites.net/scraper/{issuer-code}`
-  - Historical data for issuer for a given time frame (from - to) dates: <br />
+  - Historical data for issuer for a given time frame (from - to dates) in JSON: <br />
       `https://mkse-scraper.azurewebsites.net/scraper/{issuer-code} {yyyy-mm-dd} {yyyy-mm-dd}`
 
 <sub>Note: replace the parameters in the curly brackets {} with valid values in the links<sub>
