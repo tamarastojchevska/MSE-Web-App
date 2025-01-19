@@ -18,7 +18,7 @@ To run this homework successfully, only the [scraper](Homework1/scraper.py) need
 ### Homework 2
 Because this homework uses parts of the previous homework (Homework 1), it is necessary to download both folders, [Homework1](Homework1) and [Homework2](Homework2). Firstly, to run the application, the [app.py](Homework2/tech_prototype/app.py) script needs to be executed and then the URL http://127.0.0.1:5000 to be entered in the browser.
 ### Homework 3
-This homework can be executed independently from the previous homeworks. To run the application, the [app.py](app.py) script needs to be executed first and then the url http://127.0.0.1:5000 to be entered in the browser.
+This homework can be executed independently from the previous homeworks. To run the application, the [app.py](app.py) script needs to be executed first and then the url http://127.0.0.1:5000 to be entered in the browser. To access it through another device (i.e. mobile), type in the second IP given which opens port 5000 to devices on the same wifi network the application runs on. 
 ### Homework 4
 - This homework requiers a Docker Engine installed on the machine. To run the application follow the steps [here](https://github.com/tamarastojchevska/MSE-Web-App/tree/master/Homework4#how-to-build-the-images-and-run-the-app-locally).
 - The application is hosted on Azure. It can be accessed through the following link https://mkse.azurewebsites.net/
