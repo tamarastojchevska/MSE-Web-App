@@ -22,3 +22,18 @@ This project has multiple Dockerfiles that are then composed in a [Docker Compos
 ```
 After the images have been started, the application can be accessed through http://localhost:5000/, and the microservice can be accessed through http://localhost:5001/scraper/tickers to get the issuer codes, http://localhost:5001/scraper/{issuer-code}
 to access all the data for the specified issuer, or http://localhost:5001/scraper/{issuer-code}{yyyy-mm-dd}{yyyy-mm-dd} to access the data within a specific time frame (from date, to date) for the given issuer.
+
+## Hosting
+The application and microservice are hosted on Azure.
+
+## Links
+- Application: https://mkse.azurewebsites.net/
+- Microservice:
+  - List of issuers in JSON:<br />
+      https://mkse-scraper.azurewebsites.net/scraper/tickers
+  - Histroical data for issuer in JSON: <br />
+      https://mkse-scraper.azurewebsites.net/scraper/{issuer-code}
+  - Historical data for issuer for a given time frame (from - to ): <br />
+      https://mkse-scraper.azurewebsites.net/scraper/{issuer-code} {yyyy-mm-dd} {yyyy-mm-dd}
+
+<sub>Note: replace the parameters in the curly brackets {} with valid values in the links<sub>
